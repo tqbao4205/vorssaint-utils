@@ -317,15 +317,7 @@ final class WebBarService: NSObject, ObservableObject {
 
         if let webView = webViews[activeID] {
             let tab = document.tabs[idx]
-            let lower = tab.urlString.lowercased()
-            let newUA: String
-            if lower.contains("zalo.me") {
-                newUA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
-            } else if lower.contains("accounts.google") || lower.contains("chatgpt.com") || lower.contains("openai.com") || lower.contains("claude.ai") || lower.contains("auth0") {
-                newUA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
-            } else {
-                newUA = mode.userAgent
-            }
+            let newUA = WebBarUserAgentPolicy.userAgent(for: tab.urlString, viewport: mode)
 
             if webView.customUserAgent != newUA {
                 webView.customUserAgent = newUA

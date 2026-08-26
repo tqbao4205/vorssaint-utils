@@ -150,16 +150,23 @@ final class WebBarWebKitCoordinator: NSObject, WKNavigationDelegate, WKUIDelegat
         let scheme = url.scheme?.lowercased() ?? ""
         let urlStr = url.absoluteString.lowercased()
 
-        // 1. Intercept and block mobile redirects to App Store / custom scheme launchers
-        if scheme == "itms-apps" || scheme == "itms-appss" || urlStr.contains("apps.apple.com") || scheme == "zalo" {
+        // 1. Intercept and block mobile redirects to App Store / custom scheme launchers.
+        let appSchemes = ["zalo", "fb", "fbauth2", "fb-messenger", "messenger", "msgr"]
+        if scheme == "itms-apps" || scheme == "itms-appss"
+            || urlStr.contains("apps.apple.com") || appSchemes.contains(scheme) {
             decisionHandler(.cancel)
             return
         }
 
-        // 2. Redirect Facebook mobile messages wall to www.messenger.com web app
-        if urlStr.contains("facebook.com/messages") || urlStr.contains("m.facebook.com/messages") {
-            if let messengerURL = URL(string: "https://www.messenger.com") {
-                webView.load(URLRequest(url: messengerURL))
+        // 2. Messenger's standalone login bounces through an embedded Facebook
+        // flow that can end on an unavailable-content page. Use Facebook's own
+        // messages route instead: it shares the existing Facebook login cookie
+        // and still renders responsively inside an iPhone-sized WebBar.
+        if navigationAction.targetFrame?.isMainFrame != false,
+           let host = url.host?.lowercased(),
+           host == "messenger.com" || host.hasSuffix(".messenger.com") {
+            if let messagesURL = Self.facebookMessagesURL(from: url) {
+                webView.load(URLRequest(url: messagesURL))
                 decisionHandler(.cancel)
                 return
             }
@@ -173,6 +180,18 @@ final class WebBarWebKitCoordinator: NSObject, WKNavigationDelegate, WKUIDelegat
         }
 
         decisionHandler(.allow)
+    }
+
+    private static func facebookMessagesURL(from messengerURL: URL) -> URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "www.facebook.com"
+        if messengerURL.path.hasPrefix("/t/") {
+            components.path = "/messages" + messengerURL.path
+        } else {
+            components.path = "/messages/"
+        }
+        return components.url
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {

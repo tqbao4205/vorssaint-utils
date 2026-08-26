@@ -55,6 +55,45 @@ enum WebBarViewportMode: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+/// Some sites disable their useful web experience when they see an iPhone
+/// user agent, even though their desktop site adapts correctly to a narrow
+/// window. Keep the selected viewport size while presenting the browser
+/// identity those sites support.
+enum WebBarUserAgentPolicy {
+    static let desktopSafari =
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 " +
+        "(KHTML, like Gecko) Version/17.5 Safari/605.1.15"
+    static let desktopChrome =
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " +
+        "(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+
+    static func userAgent(for urlString: String, viewport: WebBarViewportMode) -> String {
+        let host = URL(string: urlString)?.host?.lowercased() ?? ""
+
+        if matches(host, domain: "facebook.com")
+            || matches(host, domain: "fb.com")
+            || matches(host, domain: "messenger.com")
+            || matches(host, domain: "zalo.me")
+            || matches(host, domain: "tiktok.com") {
+            return desktopSafari
+        }
+
+        if matches(host, domain: "google.com")
+            || matches(host, domain: "chatgpt.com")
+            || matches(host, domain: "openai.com")
+            || matches(host, domain: "claude.ai")
+            || matches(host, domain: "auth0.com") {
+            return desktopChrome
+        }
+
+        return viewport.userAgent
+    }
+
+    private static func matches(_ host: String, domain: String) -> Bool {
+        host == domain || host.hasSuffix("." + domain)
+    }
+}
+
 enum WebBarZoomCommand: Equatable {
     case zoomIn
     case zoomOut

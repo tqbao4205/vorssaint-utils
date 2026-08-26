@@ -390,16 +390,7 @@ struct WebBarWKWebViewContainer: NSViewRepresentable {
     }
 
     private func effectiveUserAgent(for tab: WebBarTab) -> String {
-        let lower = tab.urlString.lowercased()
-        // 1. Zalo, Messenger, Facebook, TikTok: Always use desktop Safari Mac user agent so full web chat is served without app download prompts
-        if lower.contains("zalo.me") || lower.contains("messenger.com") || lower.contains("facebook.com") || lower.contains("fb.com") || lower.contains("tiktok.com") {
-            return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
-        }
-        // 2. Google OAuth, ChatGPT, OpenAI, Claude: Always use desktop Chrome Mac user agent to prevent disallowed_useragent
-        if lower.contains("accounts.google") || lower.contains("chatgpt.com") || lower.contains("openai.com") || lower.contains("claude.ai") || lower.contains("auth0") {
-            return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
-        }
-        return tab.viewport.userAgent
+        WebBarUserAgentPolicy.userAgent(for: tab.urlString, viewport: tab.viewport)
     }
 
     func makeNSView(context: Context) -> WKWebView {
