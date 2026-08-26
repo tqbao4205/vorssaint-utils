@@ -55,11 +55,47 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension AppUpdateStrings {
+    static let vi = AppUpdateStrings(
+        pageTitle: "Cập nhật ứng dụng",
+        hubDescription: "Tìm và cài đặt các bản cập nhật cho ứng dụng của bạn",
+        caption: "Tìm kiếm phiên bản mới hơn của các ứng dụng trên máy Mac này và cập nhật những ứng dụng bạn chọn, nhờ đó bạn không cần phải mở cửa hàng cho từng ứng dụng.",
+        panelCaption: "Xem những ứng dụng nào có phiên bản mới hơn",
+        checkNow: "Kiểm tra ngay",
+        checking: "Đang kiểm tra",
+        lastCheckFormat: "Kiểm tra lần cuối %@",
+        neverChecked: "Chưa kiểm tra",
+        upToDate: "Mọi ứng dụng đều đã cập nhật",
+        coverageNote: "Bao gồm các ứng dụng được cài đặt bằng Homebrew và các ứng dụng từ App Store. Các ứng dụng có trình tự cập nhật riêng sẽ tiếp tục tự cập nhật.",
+        selectAll: "Chọn tất cả",
+        clearSelection: "Xóa chọn",
+        updateSelectedFormat: "Cập nhật %d",
+        updateOne: "Cập nhật",
+        openAppStore: "Mở App Store",
+        appStoreBadge: "App Store",
+        storeHint: "Mở App Store, nơi bản cập nhật này được cài đặt",
+        frequencyLabel: "Kiểm tra trong nền",
+        frequencyOff: "Tắt",
+        frequencyDaily: "Hàng ngày",
+        frequencyWeekly: "Hàng tuần",
+        nextCheckFormat: "Lần kiểm tra tiếp theo %@",
+        notifyToggle: "Thông báo khi có bản cập nhật ứng dụng",
+        includeStoreToggle: "Bao gồm ứng dụng từ App Store",
+        includeStoreCaption: "Hỏi Apple phiên bản hiện tại cho các ứng dụng bạn đã tải từ App Store. Tắt mục này để giữ mọi kiểm tra trên máy Mac này.",
+        packageMissing: "Homebrew chưa được cài đặt, vì vậy chưa thể cập nhật ứng dụng từ đây.",
+        notificationBodyFormat: "%@ ứng dụng có phiên bản mới hơn.",
+        notificationBodyOne: "Một ứng dụng có phiên bản mới hơn.",
+        showInPanel: "Hiện trong bảng điều khiển",
+        homebrewBadge: "Homebrew",
+        sourcesTitle: "Nguồn",
+        includeHomebrewToggle: "Bao gồm ứng dụng Homebrew"
+    )
+
     static let enUS = AppUpdateStrings(
         pageTitle: "App updates",
         hubDescription: "Find and install updates for the apps you have",

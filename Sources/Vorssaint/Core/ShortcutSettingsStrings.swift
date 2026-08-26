@@ -25,11 +25,18 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension ShortcutSettingsStrings {
+    static let vi = ShortcutSettingsStrings(
+        active: "Đang bật",
+        inactive: "Đang tắt",
+        superKeyAlternativeFormat: "hoặc %@"
+    )
+
     static let enUS = ShortcutSettingsStrings(
         active: "Active",
         inactive: "Inactive",

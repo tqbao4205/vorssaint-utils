@@ -27,11 +27,20 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension WindowPreviewExclusionStrings {
+    static let vi = WindowPreviewExclusionStrings(
+        sectionTitle: "Hình thu nhỏ cửa sổ",
+        listTitle: "Tạm dừng trong các ứng dụng này",
+        addButton: "Thêm ứng dụng…",
+        removeButton: "Xóa",
+        caption: "Hình thu nhỏ cửa sổ tạm dừng khi một trong những ứng dụng này đang ở phía trước."
+    )
+
     static let enUS = WindowPreviewExclusionStrings(
         sectionTitle: "Window thumbnails",
         listTitle: "Pause in these apps",

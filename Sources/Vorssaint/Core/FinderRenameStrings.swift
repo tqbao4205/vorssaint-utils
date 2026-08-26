@@ -28,11 +28,21 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension FinderRenameFeatureStrings {
+    static let vi = FinderRenameFeatureStrings(
+        pageTitle: "Phím tắt Finder",
+        hubTitle: "Phím tắt đổi tên",
+        hubDescription: "Đổi tên tệp hoặc thư mục đã chọn bằng phím tắt bạn chọn.",
+        enableLabel: "Dùng phím tắt để đổi tên",
+        caption: "Phím tắt chỉ hoạt động trong Finder và không can thiệp vào các trường văn bản. F2 hoạt động như một phím bình thường; trên bàn phím có điều khiển độ sáng, hãy dùng Fn-F2 hoặc chọn phím tắt khác.",
+        shortcutLabel: "Đổi tên"
+    )
+
     static let enUS = FinderRenameFeatureStrings(
         pageTitle: "Finder shortcuts",
         hubTitle: "Rename shortcut",

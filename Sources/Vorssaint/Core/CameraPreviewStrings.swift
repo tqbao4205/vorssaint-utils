@@ -32,11 +32,24 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension CameraPreviewFeatureStrings {
+    static let vi = CameraPreviewFeatureStrings(
+        pageTitle: "Xem trước camera",
+        hubDescription: "Mở một gương soi nổi từ camera của bạn",
+        panelCaption: "Kiểm tra diện mạo của bạn trước cuộc gọi",
+        openButton: "Mở xem trước",
+        cameraMenuLabel: "Camera",
+        deniedMessage: "Quyền truy cập camera cho Vorssaint đang bị tắt trong Cài đặt hệ thống.",
+        noCameraMessage: "Không phát hiện camera",
+        permName: "Camera",
+        permExplain: "Chỉ hiển thị camera trong cửa sổ xem trước để bạn có thể kiểm tra diện mạo trước cuộc gọi. Không có nội dung nào được ghi lại hoặc rời khỏi máy Mac của bạn."
+    )
+
     static let enUS = CameraPreviewFeatureStrings(
         pageTitle: "Camera preview",
         hubDescription: "Opens a floating mirror with your camera",

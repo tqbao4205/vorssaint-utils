@@ -43,11 +43,33 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension BrightnessFeatureStrings {
+    static let vi = BrightnessFeatureStrings(
+        pageTitle: "Màn hình",
+        hubDescription: "Điều khiển độ sáng và nguồn điện cho từng màn hình",
+        enable: "Điều khiển màn hình",
+        enableCaption: "Điều khiển độ sáng và bật hoặc tắt màn hình tích hợp và màn hình ngoài, tại đây và trong bảng điều khiển thanh menu.",
+        externalCaption: "Màn hình ngoài được điều chỉnh thông qua cùng giao thức như các nút bấm vật lý của chúng. Khi kết nối không hỗ trợ, như với bộ chuyển đổi HDMI, thanh trượt sẽ làm mờ hình ảnh thay thế, đảm bảo việc điều chỉnh độ sáng luôn hoạt động.",
+        noDisplays: "Không tìm thấy màn hình.",
+        displayOff: "Tắt",
+        turnOffDisplay: "Tắt màn hình",
+        turnOnDisplay: "Bật màn hình",
+        lastDisplayCaption: "Phải có ít nhất một màn hình luôn bật.",
+        switchUnavailable: "Chuyển đổi màn hình không khả dụng trên máy Mac này.",
+        switchFailed: "Không thể thay đổi màn hình này.",
+        keysToggle: "Phím độ sáng đi theo con trỏ",
+        keysCaption: "Các phím độ sáng trên bàn phím sẽ thay đổi màn hình nằm dưới con trỏ.",
+        osdToggle: "Hiển thị độ sáng khi điều chỉnh",
+        osdCaption: "Hiển thị phần trăm độ sáng khi bạn dùng các phím độ sáng hoặc thanh trượt.",
+        keyboardLight: "Đèn bàn phím",
+        keyboardLightCaption: "Bật hoặc tắt đèn nền bàn phím."
+    )
+
     static let enUS = BrightnessFeatureStrings(
         pageTitle: "Displays",
         hubDescription: "Brightness and power controls for every display",

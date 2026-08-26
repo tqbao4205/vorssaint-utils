@@ -33,11 +33,22 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension PermissionGuideStrings {
+    static let vi = PermissionGuideStrings(
+        title: "Còn một bước nữa",
+        stepOpen: "macOS đã mở danh sách phù hợp trong Cài đặt hệ thống.",
+        stepToggle: "Bật Vorssaint trong danh sách đó.",
+        stepReturn: "Quay lại đây. Thẻ này sẽ tự nhận diện khi hoàn tất.",
+        waiting: "Đang chờ cấp quyền…",
+        granted: "Đã cấp quyền thành công!",
+        closeHelp: "Đóng"
+    )
+
     static let ko = PermissionGuideStrings(
         title: "한 단계만 남았습니다",
         stepOpen: "macOS가 시스템 설정의 올바른 목록을 열었습니다.",

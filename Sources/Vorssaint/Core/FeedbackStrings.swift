@@ -50,11 +50,43 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension FeedbackStrings {
+    static let vi = FeedbackStrings(
+        sectionTitle: "Phản hồi",
+        sectionCaption: "Gửi báo cáo lỗi hoặc ý tưởng tính năng trực tiếp đến người duy trì Vorssaint.",
+        openButton: "Gửi phản hồi",
+        windowTitle: "Gửi phản hồi",
+        bugTitle: "Lỗi",
+        featureTitle: "Ý tưởng tính năng",
+        messageLabel: "Bạn muốn chia sẻ điều gì?",
+        bugPlaceholder: "Mô tả điều gì đã xảy ra và điều bạn mong đợi.",
+        featurePlaceholder: "Mô tả ý tưởng và cách nó có thể giúp ích.",
+        charactersFormat: "%d / 2000 ký tự",
+        includeDiagnostics: "Bao gồm chi tiết kỹ thuật",
+        includeDiagnosticsCaption: "Chỉ thêm phiên bản ứng dụng, phiên bản macOS, kiểu máy Mac và ngôn ngữ ứng dụng hiển thị bên dưới. Không bao gồm nhật ký.",
+        whatSentTitle: "Nội dung sẽ được gửi",
+        whatSentBasic: "Danh mục bạn đã chọn và đoạn văn bản ở trên.",
+        whatSentDiagnostics: "Chi tiết kỹ thuật được liệt kê bên dưới.",
+        privacyNote: "Không bao gồm tên, tài khoản, email, định danh thiết bị, nhật ký, ảnh chụp màn hình, tệp hay nội dung bảng tạm. Địa chỉ IP công khai của bạn chỉ được xử lý tạm thời để chống lạm dụng và không gắn kèm phản hồi.",
+        retentionNote: "Sau khi gửi, nội dung sẽ được lưu trong kênh hỗ trợ riêng tư cho đến khi chủ sở hữu dịch vụ xóa. Bản sao chưa gửi được sẽ tự động xóa vĩnh viễn sau 7 ngày.",
+        sendButton: "Gửi phản hồi",
+        sending: "Đang gửi…",
+        sentTitle: "Đã gửi phản hồi",
+        sentCaption: "Cảm ơn bạn. Do không gửi thông tin liên hệ nên bạn sẽ không nhận được phản hồi trực tiếp.",
+        unavailableError: "Không thể kết nối. Hãy kiểm tra kết nối mạng và thử lại.",
+        rateLimitError: "Quá nhiều lượt gửi từ mạng này. Vui lòng thử lại sau.",
+        genericError: "Hiện không thể gửi phản hồi.",
+        done: "Xong",
+        commandBug: "Báo cáo lỗi",
+        commandFeature: "Đề xuất tính năng",
+        commandSubtitle: "Gửi phản hồi"
+    )
+
     static let enUS = FeedbackStrings(
         sectionTitle: "Feedback",
         sectionCaption: "Send a bug report or feature idea directly to the person who maintains Vorssaint.",

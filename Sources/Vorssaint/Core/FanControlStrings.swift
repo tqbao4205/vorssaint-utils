@@ -63,11 +63,56 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension FanControlFeatureStrings {
+    static let vi = FanControlFeatureStrings(
+        title: "Điều khiển quạt",
+        hubDescription: "Điều khiển quạt thủ công hoặc theo đường cong nhiệt độ kèm theo RPM trực tiếp và RPM mục tiêu",
+        showInPanel: "Hiển thị Điều khiển quạt trong bảng điều khiển",
+        settingsCaption: "Thêm tốc độ quạt thủ công và đường cong nhiệt độ vào bảng điều khiển thanh menu.",
+        fanNameFormat: "Quạt %d",
+        rpmFormat: "%d RPM",
+        allowControl: "Cho phép điều khiển quạt",
+        approvalCaption: "Cho phép Vorssaint trong Mục khởi động để sử dụng bộ điều khiển quạt được bảo vệ.",
+        openSettings: "Mở Cài đặt hệ thống",
+        noFans: "Máy Mac này không có quạt có thể điều khiển.",
+        unsupported: "Điều khiển quạt không khả dụng trên máy Mac này.",
+        alreadyControlled: "Một tiến trình khác đang điều khiển quạt. Hãy chuyển lại quyền điều khiển cho hệ thống trước.",
+        failed: "Quạt đã quay về quyền điều khiển của hệ thống vì không thể xác minh yêu cầu điều khiển.",
+        safetyCaption: "Quyền điều khiển duy trì cho đến khi bạn quay lại Hệ thống. Quạt tự động trả về hệ thống nếu ứng dụng ngắt kết nối, máy Mac ngủ, lỗi đọc cảm biến hoặc áp lực nhiệt tăng.",
+        safetyStopped: "Đã quay về quyền điều khiển hệ thống do quá trình điều khiển quạt bị gián đoạn.",
+        menuBarTitle: "Tốc độ quạt",
+        systemControl: "Hệ thống",
+        manualControl: "Thủ công",
+        customCurve: "Đường cong",
+        mode: "Chế độ điều khiển",
+        coolingIntensity: "Tốc độ quạt",
+        currentRPMFormat: "Hiện tại %d RPM",
+        targetRPMFormat: "Mục tiêu %d RPM",
+        applyManual: "Áp dụng điều khiển thủ công",
+        applyCurve: "Áp dụng đường cong quạt",
+        returnToSystem: "Dùng điều khiển của hệ thống",
+        temperatureUnavailable: "Cảm biến nhiệt độ đã chọn ngừng phản hồi. Điều khiển quạt đã quay về Hệ thống.",
+        curveUnavailable: "Cảm biến nhiệt độ đã chọn không khả dụng trên máy Mac này.",
+        sensor: "Cảm biến nhiệt độ",
+        temperature: "Nhiệt độ",
+        fanSpeed: "Tốc độ quạt",
+        addPoint: "Thêm điểm",
+        addSensor: "Thêm cảm biến",
+        removePoint: "Xóa điểm",
+        removeSensor: "Xóa cảm biến",
+        curveGraph: "Đường cong nhiệt độ và tốc độ quạt",
+        averageSoC: "SoC trung bình",
+        hottestSoC: "SoC nóng nhất",
+        averageCPU: "CPU trung bình",
+        hottestCPU: "CPU nóng nhất",
+        hottestGPU: "GPU nóng nhất"
+    )
+
     static let enUS = FanControlFeatureStrings(
         title: "Fan Control",
         hubDescription: "Control fans manually or with temperature curves while seeing live and target RPM",

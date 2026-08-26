@@ -30,11 +30,23 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension SwitcherAppRulesStrings {
+    static let vi = SwitcherAppRulesStrings(
+        listTitle: "Quy tắc theo ứng dụng",
+        addButton: "Thêm ứng dụng…",
+        removeButton: "Xóa",
+        behaviorLabel: "Hành vi trình chuyển đổi",
+        showWithoutWindows: "Hiện khi không có cửa sổ",
+        windowsOnly: "Chỉ khi có cửa sổ",
+        hidden: "Không bao giờ hiện",
+        caption: "Chọn cách mỗi ứng dụng xuất hiện. Các ứng dụng không có quy tắc sẽ dùng tùy chọn ở trên."
+    )
+
     static let enUS = SwitcherAppRulesStrings(
         listTitle: "Rules by app",
         addButton: "Add an app…",

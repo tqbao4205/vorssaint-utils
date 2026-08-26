@@ -53,11 +53,45 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension ScratchpadFeatureStrings {
+    static let vi = ScratchpadFeatureStrings(
+        pageTitle: "Sổ tay tạm thời",
+        hubDescription: "Bảng ghi chú nổi cho các ghi chú ngắn hạn",
+        panelCaption: "Ghi chú nhanh trong các tab riêng biệt",
+        openButton: "Mở sổ tay tạm thời",
+        placeholder: "Nhập bất cứ điều gì. Tự động lưu lại.",
+        copyAll: "Sao chép tất cả",
+        copied: "Đã sao chép",
+        exportAction: "Lưu thành tệp",
+        clearAction: "Xóa",
+        retentionTitle: "Tự động xóa",
+        retentionNever: "Không bao giờ",
+        retentionDay: "Sau 1 ngày không dùng",
+        retentionWeek: "Sau 1 tuần không dùng",
+        retentionMonth: "Sau 1 tháng không dùng",
+        retentionCaption: "Sổ tay sẽ tự động xóa sạch khi văn bản không được chỉnh sửa trong khoảng thời gian đó.",
+        closeOnClickOutside: "Đóng khi nhấp ra ngoài",
+        keepOpen: "Giữ luôn mở",
+        backgroundOpacity: "Nền sổ tay",
+        backgroundTranslucent: "Mờ trong suốt",
+        backgroundOpaque: "Đậm đục",
+        newPad: "Sổ tay mới",
+        padActions: "Tác vụ sổ tay",
+        renamePad: "Đổi tên sổ tay",
+        closePad: "Đóng sổ tay",
+        saveName: "Lưu",
+        cancel: "Hủy",
+        deletePadMessageFormat: "Xóa “%@” và mọi nội dung trong đó?",
+        padLimitFormat: "Bạn có thể giữ tối đa %d sổ tay tạm thời",
+        previewFormatting: "Hiện định dạng",
+        editText: "Sửa văn bản"
+    )
+
     static let enUS = ScratchpadFeatureStrings(
         pageTitle: "Scratchpad",
         hubDescription: "Floating pads for short-lived notes",

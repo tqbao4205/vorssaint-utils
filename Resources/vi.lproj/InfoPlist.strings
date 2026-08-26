@@ -1,0 +1,23 @@
+/* macOS Automation permission prompt. */
+"NSAppleEventsUsageDescription" = "Vorssaint sử dụng tính năng tự động hóa để di chuyển tệp trong Finder, đưa các mục vào Thùng rác và mở các lệnh Terminal khi bạn yêu cầu các thao tác Homebrew.";
+
+/* macOS Screen & System Audio Recording permission prompt. */
+"NSAudioCaptureUsageDescription" = "Vorssaint chỉ truy cập âm thanh của từng ứng dụng để điều chỉnh âm lượng trong bộ trộn. Không có nội dung nào được ghi lại và không có dữ liệu nào rời khỏi máy Mac của bạn.";
+
+/* macOS Bluetooth permission prompt. */
+"NSBluetoothAlwaysUsageDescription" = "Vorssaint chỉ sử dụng Bluetooth để đọc mức pin của các thiết bị ngoại vi đã kết nối. Không có dữ liệu nào rời khỏi máy Mac của bạn.";
+
+/* macOS Microphone permission prompt. */
+"NSMicrophoneUsageDescription" = "Vorssaint chỉ ghi âm micrô của bạn khi bạn bật micrô cho bản ghi màn hình. Âm thanh sẽ nằm trên máy Mac của bạn trừ khi bạn tạo một liên kết tạm thời.";
+
+/* macOS Camera permission prompt. */
+"NSCameraUsageDescription" = "Vorssaint chỉ hiển thị camera của bạn trong cửa sổ xem trước mà bạn mở để bạn có thể kiểm tra diện mạo trước cuộc gọi. Không có nội dung nào được ghi lại và không có dữ liệu nào rời khỏi máy Mac của bạn.";
+
+/* macOS Downloads folder permission prompt. */
+"NSDownloadsFolderUsageDescription" = "Vorssaint kiểm tra siêu dữ liệu cục bộ trong Tải về để chỉ kiểm tra, sắp xếp hoặc chuyển các tệp WhatsApp đã xác nhận vào Thùng rác.";
+
+/* macOS user-selected organizer destination prompts. */
+"NSDesktopFolderUsageDescription" = "Vorssaint sắp xếp các tệp tải về WhatsApp đã xác nhận vào thư mục đích mà bạn chọn rõ ràng.";
+"NSDocumentsFolderUsageDescription" = "Vorssaint sắp xếp các tệp tải về WhatsApp đã xác nhận vào thư mục đích mà bạn chọn rõ ràng.";
+"NSNetworkVolumesUsageDescription" = "Vorssaint sắp xếp các tệp tải về WhatsApp đã xác nhận vào thư mục đích mà bạn chọn rõ ràng.";
+"NSRemovableVolumesUsageDescription" = "Vorssaint sắp xếp các tệp tải về WhatsApp đã xác nhận vào thư mục đích mà bạn chọn rõ ràng.";

@@ -45,11 +45,38 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension MouseButtonFeatureStrings {
+    static let vi = MouseButtonFeatureStrings(
+        pageTitle: "Phím tắt nút chuột",
+        hubDescription: "Các nút bổ sung và hướng con lăn cạnh nhấn tổ hợp phím bạn chọn.",
+        enableLabel: "Dùng các nút bổ sung làm phím tắt",
+        enableCaption: "Mỗi nút bổ sung hoặc hướng con lăn cạnh có thể nhấn một tổ hợp phím thay cho bạn. Khi đã gán phím tắt, nút sẽ không thực hiện chức năng cũ nữa.",
+        addButton: "Thêm nút hoặc con lăn cạnh",
+        captureWaiting: "Bây giờ hãy nhấn một nút bổ sung hoặc lăn con lăn cạnh.",
+        captureCancel: "Hủy",
+        captureBlind: "Vorssaint hiện không thể theo dõi chuột.",
+        captureUnsupported: "Đầu vào đó không thể gán phím tắt. Hãy dùng nút bổ sung hoặc hướng con lăn cạnh.",
+        captureWheel: "Nút đó đã được dùng để mở menu tròn. Hãy chọn nút khác hoặc giải phóng nó trước.",
+        captureExists: "Nút hoặc hướng đó đã có trong danh sách bên dưới.",
+        captureHint: "Nếu không có gì xảy ra, phần mềm riêng của chuột có thể đang chiếm quyền điều khiển đó.",
+        backButtonName: "Nút cạnh Quay lại",
+        forwardButtonName: "Nút cạnh Tiến lên",
+        otherButtonFormat: "Nút %d",
+        setShortcutButton: "Gán phím tắt",
+        removeButton: "Xóa",
+        emptyCaption: "Chưa có phím tắt nào. Hãy thêm một nút hoặc hướng con lăn cạnh.",
+        rowWheelNote: "Nút này hiện đang mở menu tròn, vì vậy phím tắt sẽ tạm chờ.",
+        manageButton: "Thiết lập…",
+        panelCaption: "Các nút bổ sung và hướng con lăn cạnh nhấn tổ hợp phím bạn chọn.",
+        sideWheelLeftName: "Con lăn cạnh sang trái",
+        sideWheelRightName: "Con lăn cạnh sang phải"
+    )
+
     static let enUS = MouseButtonFeatureStrings(
         pageTitle: "Mouse button shortcuts",
         hubDescription: "Extra buttons and side-wheel directions press a key combination you choose.",

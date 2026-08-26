@@ -34,11 +34,24 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension BackupFeatureStrings {
+    static let vi = BackupFeatureStrings(
+        title: "Sao lưu",
+        description: "Mang cài đặt của bạn sang máy Mac khác: xuất mọi tùy chọn ra một tệp và nhập vào đó. Tệp bao gồm cả văn bản từ ghi chú Sổ tay tạm thời của bạn. Lịch sử bảng tạm, các mục trong Kệ tạm và các quyền hệ thống không bao giờ rời khỏi máy Mac này.",
+        exportButton: "Xuất cài đặt…",
+        importButton: "Nhập cài đặt…",
+        exported: "Đã lưu bản sao lưu",
+        importConfirmTitle: "Nhập cài đặt này?",
+        importConfirmBody: "Cài đặt hiện tại của bạn sẽ được thay thế bằng cài đặt từ tệp và ứng dụng sẽ khởi động lại. Không có nội dung nào khác trên máy Mac này bị thay đổi.",
+        importAction: "Nhập và khởi động lại",
+        invalidFile: "Tệp này không phải là bản sao lưu Vorssaint hợp lệ."
+    )
+
     static let ko = BackupFeatureStrings(
         title: "백업",
         description: "설정을 다른 Mac으로 옮기세요. 모든 환경설정을 파일로 내보낸 뒤 그곳에서 가져올 수 있습니다. 빠른 메모의 텍스트도 파일에 포함됩니다. 클립보드 기록, 선반 항목 및 시스템 권한은 이 Mac 밖으로 나가지 않습니다.",

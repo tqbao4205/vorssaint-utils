@@ -50,11 +50,40 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension QuickToggleFeatureStrings {
+    static let vi = QuickToggleFeatureStrings(
+        pageTitle: "Thao tác nhanh",
+        hubDescription: "Các thao tác bằng một cú nhấp như chế độ tối và Thùng rác",
+        panelCaption: "Các thao tác hệ thống bằng một cú nhấp trong bảng điều khiển thanh menu và trong bảng thao tác nhanh.",
+        darkModeToDark: "Chuyển sang chế độ tối",
+        darkModeToLight: "Chuyển sang chế độ sáng",
+        darkModeCaption: "Thay đổi giao diện của toàn bộ hệ thống.",
+        emptyTrashTitle: "Dọn sạch Thùng rác",
+        emptyTrashCaption: "Xóa tất cả các mục khỏi Thùng rác.",
+        emptyTrashConfirmTitle: "Dọn sạch Thùng rác?",
+        emptyTrashConfirmMessage: "Tất cả các mục trong Thùng rác sẽ bị xóa. Thao tác này không thể hoàn tác.",
+        emptyTrashConfirmButton: "Dọn sạch Thùng rác",
+        ejectTitle: "Ngắt kết nối tất cả ổ đĩa",
+        ejectCaption: "Ngắt kết nối an toàn mọi ổ đĩa ngoài.",
+        hiddenFilesShow: "Hiện tệp ẩn",
+        hiddenFilesHide: "Ẩn tệp ẩn",
+        desktopIconsHide: "Ẩn biểu tượng trên màn hình nền",
+        desktopIconsShow: "Hiện biểu tượng trên màn hình nền",
+        finderRestartCaption: "Finder sẽ khởi động lại để áp dụng thay đổi.",
+        lockScreenTitle: "Khóa màn hình",
+        lockScreenCaption: "Yêu cầu mật khẩu để mở lại.",
+        displayOffTitle: "Tắt màn hình",
+        displayOffCaption: "Máy Mac vẫn tiếp tục chạy khi màn hình đã tắt.",
+        screenSaverTitle: "Bật trình bảo vệ màn hình",
+        screenSaverCaption: "Bật ngay lập tức trên mọi màn hình.",
+        actionFailed: "Không thể hoàn thành."
+    )
+
     static let enUS = QuickToggleFeatureStrings(
         pageTitle: "Quick toggles",
         hubDescription: "One-click actions like dark mode and Trash",

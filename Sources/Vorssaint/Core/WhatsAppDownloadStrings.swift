@@ -60,11 +60,55 @@ struct WhatsAppDownloadStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension WhatsAppDownloadStrings {
+    static let vi = WhatsAppDownloadStrings(
+        title: "Tệp tải về WhatsApp",
+        hubDescription: "Kiểm soát các tệp WhatsApp trong thư mục Tải về",
+        intro: "Tìm kiếm các tệp mà macOS xác nhận bắt nguồn từ WhatsApp. Nội dung tệp và các đoạn chat không bao giờ bị đọc.",
+        automatic: "Tự động dọn dẹp",
+        automaticCaption: "Kiểm tra một lần mỗi ngày và chuyển các tệp khớp vượt quá giới hạn thời gian vào Thùng rác.",
+        folder: "Thư mục theo dõi",
+        accessReady: "Thư mục Tải về có thể truy cập được",
+        accessDenied: "Vorssaint không thể truy cập Tải về. Hãy cấp quyền trong Tệp & Thư mục.",
+        fileTypes: "Loại tệp",
+        allTypes: "Tất cả",
+        image: "Hình ảnh",
+        video: "Video",
+        audio: "Âm thanh và ghi âm giọng nói",
+        document: "Tài liệu",
+        archive: "Tệp lưu trữ",
+        other: "Khác",
+        retention: "Giữ lại trong",
+        retentionCaption: "Các tệp được chỉnh sửa gần đây sẽ được tính lại toàn bộ thời gian giữ lại.",
+        daysFormat: "%d ngày",
+        manualIntro: "Quét bất kỳ lúc nào. Lựa chọn ban đầu tuân theo các loại tệp và giới hạn thời gian của bạn; bạn có thể xem lại từng tệp đã xác nhận.",
+        noFiles: "Không tìm thấy tệp WhatsApp đã xác nhận nào trong Tải về.",
+        resultsFormat: "%1$d tệp đã xác nhận · %2$@",
+        selectRules: "Chọn theo quy tắc của tôi",
+        cleanSelectedFormat: "Chuyển %1$d vào Thùng rác · %2$@",
+        keep: "Giữ lại",
+        manageAgain: "Quản lý lại",
+        activity: "Hoạt động",
+        neverRun: "Chưa có lần dọn dẹp nào chạy.",
+        lastRunFormat: "Lần dọn dẹp gần nhất %@: %d tệp · %@ · %d thất bại",
+        nextRunFormat: "Lần kiểm tra tự động tiếp theo %@.",
+        firstTitle: "Còn các tệp hiện có thì sao?",
+        firstMessageFormat: "%d tệp hiện có đã khớp với quy tắc của bạn. Chọn xem chế độ tự động có xử lý chúng hay chỉ các tệp tải về sau này.",
+        futureOnly: "Chỉ các tệp tải về sau này",
+        includeExisting: "Bao gồm cả các tệp hiện có",
+        trashNote: "Các tệp được chuyển vào Thùng rác và có thể khôi phục cho đến khi bạn dọn sạch.",
+        localNote: "Chỉ siêu dữ liệu tệp cục bộ được kiểm tra. Vorssaint không bao giờ đọc tin nhắn hay nội dung tệp.",
+        notificationTitle: "Dọn dẹp WhatsApp",
+        notificationFormat: "%1$d tệp (%2$@) đã được chuyển vào Thùng rác. %3$d thất bại.",
+        scanFailed: "Không thể quét thư mục Tải về. Hãy kiểm tra Tệp & Thư mục trong Cài đặt hệ thống.",
+        manageButton: "Quản lý…"
+    )
+
     static let enUS = WhatsAppDownloadStrings(
         title: "WhatsApp downloads",
         hubDescription: "Keeps WhatsApp files in Downloads under control",
@@ -471,6 +515,13 @@ extension WhatsAppDownloadStrings {
             lastRunFormat: es.lastRunFormat, nextRunFormat: es.nextRunFormat,
             firstMessageFormat: es.firstMessageFormat, localNote: es.localNote,
             notificationFormat: es.notificationFormat, scanFailed: es.scanFailed, manageButton: es.manageButton)
+        case .vi: return OperationalStrings(
+            automaticCaption: vi.automaticCaption, retentionCaption: vi.retentionCaption,
+            manualIntro: vi.manualIntro, resultsFormat: vi.resultsFormat,
+            selectRules: vi.selectRules, cleanSelectedFormat: vi.cleanSelectedFormat,
+            lastRunFormat: vi.lastRunFormat, nextRunFormat: vi.nextRunFormat,
+            firstMessageFormat: vi.firstMessageFormat, localNote: vi.localNote,
+            notificationFormat: vi.notificationFormat, scanFailed: vi.scanFailed, manageButton: vi.manageButton)
         }
     }
 

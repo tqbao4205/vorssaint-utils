@@ -40,11 +40,23 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension MouseExceptionStrings {
+    static let vi = MouseExceptionStrings(
+        listTitle: "Ứng dụng bỏ qua",
+        addButton: "Thêm ứng dụng…",
+        removeButton: "Xóa",
+        captionSmoothScroll: "Con lăn giữ các bước cuộn mặc định trong các ứng dụng này, phù hợp cho các công cụ 3D và thiết kế có cách đọc con lăn riêng.",
+        captionScrollDirection: "Con lăn giữ nguyên hướng cuộn mà macOS chỉ định trong các ứng dụng này.",
+        captionNavigation: "Các nút cạnh tiếp tục làm bất kỳ điều gì mà các ứng dụng này đã định nghĩa cho chúng.",
+        captionButtonShortcuts: "Các phím tắt nút chuột của bạn sẽ tạm tắt trong các ứng dụng này để ứng dụng nhận trực tiếp cú nhấn.",
+        captionMiddleClick: "Cú nhấp ba ngón tay vẫn là cú nhấp chuột bình thường trong các ứng dụng này."
+    )
+
     static let enUS = MouseExceptionStrings(
         listTitle: "Apps to leave alone",
         addButton: "Add an app…",

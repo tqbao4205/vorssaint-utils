@@ -48,11 +48,32 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension SuperKeyStrings {
+    static let vi = SuperKeyStrings(
+        pageTitle: "Phím Super",
+        hubDescription: "Biến phím Caps Lock thành tổ hợp phím bổ trợ bạn chọn.",
+        enableToggle: "Dùng Caps Lock làm phím super",
+        enableCaption: "Giữ phím này và nhấn bất kỳ phím nào khác. Chọn một hoặc nhiều phím bổ trợ bên dưới.",
+        capsLockKey: "Caps Lock",
+        holdHint: "Giữ",
+        soloSection: "Nhấn phím đơn lẻ",
+        soloCaption: "Tác vụ khi nhấn nhanh một lần mà không kèm phím nào khác.",
+        soloNothing: "Không làm gì",
+        soloCapsLock: "Bật/tắt viết hoa",
+        soloEscape: "Nhấn Escape",
+        activeNow: "Đang hoạt động",
+        panelCaptionFormat: "Caps Lock đang giữ %@.",
+        manageButton: "Thiết lập…",
+        soloInputSource: "Chuyển nguồn đầu vào; giữ để bật Caps Lock",
+        mappingForeignMapping: "Ánh xạ phím của ứng dụng khác đang chiếm giữ Caps Lock. Hãy gỡ trong ứng dụng đó: chỉ thoát ứng dụng là chưa đủ.",
+        mappingSystemRefused: "macOS từ chối ánh xạ phím. Hãy kết nối lại bàn phím hoặc khởi động lại máy Mac, sau đó bật lại tính năng này."
+    )
+
     static let enUS = SuperKeyStrings(
         pageTitle: "Super key",
         hubDescription: "Turns Caps Lock into the modifier combination you choose.",

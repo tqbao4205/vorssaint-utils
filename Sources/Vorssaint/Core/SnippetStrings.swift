@@ -86,11 +86,76 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension SnippetFeatureStrings {
+    static let vi = SnippetFeatureStrings(
+        pageTitle: "Đoạn văn bản mẫu",
+        hubDescription: "Mở rộng các cụm ký tự ngắn thành đoạn văn bản đầy đủ",
+        enable: "Mở rộng văn bản khi gõ",
+        enableCaption: "Gõ ký tự kích hoạt ở bất kỳ đâu và cụm từ đó sẽ biến thành văn bản đầy đủ. Mọi thứ chỉ lưu trên máy Mac này.",
+        addButton: "Thêm đoạn mẫu",
+        newTitle: "Đoạn mẫu mới",
+        editTitle: "Sửa đoạn mẫu",
+        nameLabel: "Tên",
+        namePlaceholder: "Email cá nhân",
+        triggerLabel: "Ký tự kích hoạt",
+        triggerPlaceholder: ";email",
+        replacementLabel: "Văn bản thay thế",
+        replacementPlaceholder: "myemail@example.com",
+        expansionLabel: "Mở rộng",
+        expansionImmediate: "Ngay lập tức",
+        expansionDelimiter: "Sau dấu cách, Tab hoặc Return",
+        variablesHint: "Biến: {{date}}, {{time}}, {{datetime}}, {{clipboard}}",
+        variablesCaption: "Tự động đổi thành ngày, giờ và văn bản đã sao chép tại thời điểm mở rộng.",
+        emptyList: "Chưa có đoạn mẫu nào. Hãy thêm đoạn mẫu đầu tiên.",
+        duplicateTrigger: "Đoạn mẫu khác đã sử dụng ký tự kích hoạt này.",
+        triggerTooShort: "Ký tự kích hoạt phải có ít nhất 2 ký tự.",
+        deleteButton: "Xóa",
+        saveButton: "Lưu",
+        manageButton: "Quản lý đoạn mẫu",
+        ignoreCaseLabel: "Không phân biệt chữ hoa/thường",
+        libraryTitle: "Menu đoạn mẫu nhanh",
+        libraryToggle: "Mở đoạn mẫu từ menu",
+        libraryCaption: "Phím tắt mở một menu có thể tìm kiếm. Chọn một đoạn mẫu sẽ gõ trực tiếp ngay tại vị trí con trỏ.",
+        librarySearchPlaceholder: "Tìm kiếm đoạn mẫu",
+        libraryNoResults: "Không tìm thấy đoạn mẫu phù hợp.",
+        libraryEmpty: "Chưa có gì để hiển thị. Thêm đoạn mẫu hoặc bật 'Hiện trong menu nhanh' cho các đoạn thường dùng.",
+        libraryFooterHint: "↩ chèn · esc đóng",
+        folderLabel: "Thư mục",
+        folderPlaceholder: "Công việc",
+        showInLibraryLabel: "Hiện trong menu nhanh",
+        variablesFormatCaption: "Định dạng sau dấu hai chấm để chọn kiểu hiển thị, ví dụ {{date:yyyy-MM-dd}}. Phần -tz(...) để chọn múi giờ, ví dụ {{date-tz(America/New_York):yyyy-MM-dd}}.",
+        editorFormatCaption: "Định dạng sau dấu hai chấm để chọn kiểu hiển thị, ví dụ {{date:yyyy-MM-dd}}, hoặc dùng nút ngày/giờ ở trên. Phần -tz(...) để chọn múi giờ, ví dụ {{date-tz(America/New_York):yyyy-MM-dd}}.",
+        dateTimeInsertButton: "Chèn ngày/giờ",
+        dateTimeEditButton: "Sửa ngày/giờ",
+        dateTimeTypeLabel: "Loại",
+        dateTimeKindDate: "Ngày",
+        dateTimeKindTime: "Giờ",
+        dateTimeKindDateTime: "Ngày & Giờ",
+        dateTimeStyleLabel: "Kiểu dáng",
+        dateTimeStyleShort: "Ngắn gọn",
+        dateTimeStyleMedium: "Trung bình",
+        dateTimeStyleLong: "Dài",
+        dateTimeStyleFull: "Đầy đủ",
+        dateTimeStyleISO8601: "ISO 8601",
+        dateTimeStyleCustom: "Tùy chỉnh",
+        dateTimeStyleLocaleNote: "Kiểu có tên sẽ lưu định dạng theo vùng mà máy Mac của bạn đang sử dụng.",
+        dateTimeTimezoneLabel: "Múi giờ",
+        dateTimeTimezoneDeviceDefault: "Mặc định của thiết bị",
+        dateTimeTimezoneValid: "Múi giờ hợp lệ",
+        dateTimeTimezoneInvalid: "Múi giờ không nhận dạng được",
+        dateTimeTimezoneClear: "Xóa múi giờ",
+        dateTimeTimezoneSearchPlaceholder: "Tìm kiếm múi giờ",
+        dateTimePatternLabel: "Mẫu định dạng",
+        dateTimePreviewLabel: "Xem trước",
+        dateTimeConfirmInsert: "Chèn",
+        dateTimeConfirmUpdate: "Cập nhật"
+    )
+
     static let ko = SnippetFeatureStrings(
         pageTitle: "텍스트 스니펫",
         hubDescription: "짧은 트리거를 전체 텍스트로 확장합니다",

@@ -30,11 +30,23 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension RecentCaptureStrings {
+    static let vi = RecentCaptureStrings(
+        title: "Bản ghi gần đây",
+        empty: "Chụp ảnh màn hình hoặc lưu bản ghi để tìm thấy tại đây.",
+        screenshot: "Ảnh chụp màn hình",
+        recording: "Bản ghi màn hình",
+        restore: "Khôi phục",
+        open: "Mở",
+        remove: "Xóa khỏi lịch sử",
+        clear: "Xóa lịch sử"
+    )
+
     static let enUS = RecentCaptureStrings(
         title: "Recent captures",
         empty: "Take a screenshot or save a recording to find it here.",

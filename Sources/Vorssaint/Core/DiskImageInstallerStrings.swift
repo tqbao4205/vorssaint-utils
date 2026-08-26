@@ -35,11 +35,28 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension DiskImageInstallerStrings {
+    static let vi = DiskImageInstallerStrings(
+        title: "Trình cài đặt ảnh đĩa",
+        hubDescription: "Cài đặt ứng dụng duy nhất bên trong ảnh đĩa và dọn dẹp tệp tải về",
+        promptTitle: "Cài đặt ứng dụng này?",
+        promptBodyFormat: "%@ sẽ được sao chép vào Ứng dụng. Ảnh đĩa sau đó sẽ được ngắt kết nối và tệp tải về được chuyển vào Thùng rác.",
+        installButton: "Cài đặt",
+        installedTitle: "Đã cài đặt ứng dụng",
+        installedBodyFormat: "%@ đã sẵn sàng trong Ứng dụng. Ảnh đĩa đã được ngắt kết nối và tệp tải về được chuyển vào Thùng rác.",
+        installedKeepingMountBodyFormat: "%@ đã được cài đặt, nhưng không thể ngắt kết nối ảnh đĩa. Tệp tải về vẫn được giữ lại.",
+        installedKeepingDownloadBodyFormat: "%@ đã được cài đặt và ảnh đĩa đã được ngắt kết nối, nhưng không thể chuyển tệp tải về vào Thùng rác.",
+        failedTitle: "Không thể cài đặt",
+        failedBody: "Không có gì bị thay đổi. Bạn vẫn có thể kéo ứng dụng vào thư mục Ứng dụng.",
+        verificationFailedBody: "Máy Mac này không thể xác minh ứng dụng, vì vậy không có gì được cài đặt.",
+        alreadyInstalledBodyFormat: "%@ đã có sẵn trong Ứng dụng."
+    )
+
     static let enUS = DiskImageInstallerStrings(
         title: "Disk image installer",
         hubDescription: "Install the single app inside a disk image and clean up the download",

@@ -76,11 +76,71 @@ struct MediaImageConverterStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension MediaImageConverterStrings {
+    static let vi = MediaImageConverterStrings(
+        filesSelectedFormat: "Đã chọn %d tệp",
+        profile: "Hồ sơ",
+        noProfile: "Không có hồ sơ",
+        profileName: "Tên hồ sơ",
+        saveAsNew: "Lưu mới",
+        updateProfile: "Cập nhật",
+        deleteProfile: "Xóa hồ sơ",
+        profileModified: "Đã sửa đổi",
+        profileDefaultNameFormat: "Hồ sơ %d",
+        presetWeb: "Web",
+        presetSocial: "Mạng xã hội",
+        presetDocs: "Tài liệu",
+        resize: "Đổi kích thước",
+        resizeNone: "Không thay đổi",
+        resizeMax: "Cạnh tối đa",
+        resizeWidth: "Chiều rộng",
+        resizeHeight: "Chiều cao",
+        resizeExact: "Tùy chỉnh",
+        exactStretch: "Kéo giãn",
+        exactFit: "Vừa vặn",
+        exactFill: "Lấp đầy",
+        height: "Chiều cao",
+        watermark: "Hình mờ",
+        watermarkOff: "Tắt",
+        watermarkText: "Văn bản",
+        watermarkLogo: "Logo",
+        watermarkBoth: "Văn bản + logo",
+        watermarkTextPlaceholder: "Văn bản hình mờ",
+        noLogo: "Không có logo",
+        chooseLogo: "Chọn logo",
+        position: "Vị trí",
+        topLeft: "Trên cùng bên trái",
+        topRight: "Trên cùng bên phải",
+        center: "Chính giữa",
+        bottomLeft: "Dưới cùng bên trái",
+        bottomRight: "Dưới cùng bên phải",
+        opacity: "Độ mờ đục",
+        margin: "Lề",
+        scale: "Tỷ lệ",
+        rename: "Đổi tên",
+        preview: "Xem trước",
+        outputName: "Đầu ra",
+        background: "Nền",
+        backgroundTransparent: "Trong suốt",
+        backgroundWhite: "Trắng",
+        backgroundBlack: "Đen",
+        preserveDate: "Giữ ngày sửa đổi ban đầu",
+        moreOptions: "Thêm tùy chọn",
+        tooLarge: "Kích thước này quá lớn để xử lý an toàn. Hãy chọn kích thước nhỏ hơn.",
+        copySummary: "Sao chép tóm tắt",
+        savedBytesFormat: "Đã tiết kiệm %@",
+        grewBytesFormat: "Lớn hơn %@",
+        batchSavedFormat: "Đã lưu %d hình ảnh",
+        batchPartialFormat: "Đã lưu %d, thất bại %d",
+        batchSummaryHeaderFormat: "Đã lưu %d, thất bại %d",
+        batchSummaryItemFormat: "%@ -> %@"
+    )
+
     static let enUS = MediaImageConverterStrings(
         filesSelectedFormat: "%d files selected",
         profile: "Profile",

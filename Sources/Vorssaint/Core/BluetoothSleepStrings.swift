@@ -32,11 +32,22 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension BluetoothSleepStrings {
+    static let vi = BluetoothSleepStrings(
+        pageTitle: "Bluetooth khi ngủ",
+        hubDescription: "Tắt Bluetooth khi máy Mac ngủ, để tai nghe trong balo không tự động kết nối.",
+        enable: "Tắt Bluetooth khi máy Mac ngủ",
+        enableCaption: "Nếu Bluetooth đã tắt trước khi ngủ thì sẽ giữ nguyên và không bật lại khi thức dậy.",
+        restoreToggle: "Bật lại Bluetooth khi máy Mac thức dậy",
+        restoreCaption: "Chỉ khi Vorssaint là ứng dụng đã tắt nó.",
+        unsupported: "Máy Mac này không có bộ điều khiển Bluetooth."
+    )
+
     static let enUS = BluetoothSleepStrings(
         pageTitle: "Bluetooth on sleep",
         hubDescription: "Switches Bluetooth off while the Mac sleeps, so headphones in a bag stop connecting to it.",

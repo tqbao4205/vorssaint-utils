@@ -27,11 +27,20 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension AppearanceStrings {
+    static let vi = AppearanceStrings(
+        label: "Giao diện",
+        system: "Hệ thống",
+        light: "Sáng",
+        dark: "Tối",
+        liquidGlass: "Liquid Glass"
+    )
+
     static let enUS = AppearanceStrings(
         label: "Appearance",
         system: "System",

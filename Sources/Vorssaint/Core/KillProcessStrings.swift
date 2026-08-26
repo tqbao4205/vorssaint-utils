@@ -55,11 +55,45 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension KillProcessFeatureStrings {
+    static let vi = KillProcessFeatureStrings(
+        pageTitle: "Buộc dừng tiến trình",
+        browseSubtitle: "Duyệt & Buộc dừng",
+        hubDescription: "Tìm kiếm các tiến trình đang chạy và buộc thoát, khởi động lại hoặc dừng cây tiến trình",
+        searchPlaceholder: "Lọc theo tên",
+        columnProcess: "Tiến trình",
+        columnCPU: "CPU",
+        columnMemory: "Bộ nhớ",
+        columnPID: "PID",
+        groupToggle: "Gộp các tiến trình liên quan",
+        groupCaption: "Gộp các tiến trình bổ trợ dưới ứng dụng chịu trách nhiệm cho chúng.",
+        commandBarToggle: "Hiện trong Thanh lệnh",
+        commandBarCaption: "Thêm các tiến trình đang chạy vào Thanh lệnh để bạn có thể tìm và dừng chúng mà không cần mở Cài đặt.",
+        refreshTooltip: "Làm mới",
+        pidLabelFormat: "PID %d",
+        processCountFormat: "%d tiến trình",
+        killButton: "Dừng",
+        forceKillButton: "Buộc dừng",
+        killAllFormat: "Dừng tất cả “%@”",
+        killTreeButton: "Dừng cây tiến trình",
+        restartButton: "Khởi động lại",
+        copyPID: "Sao chép PID",
+        copyPath: "Sao chép đường dẫn",
+        emptyStateTitle: "Không tìm thấy tiến trình nào",
+        confirmKillFormat: "Dừng %@?",
+        confirmForceKillFormat: "Buộc dừng %@?",
+        confirmKillAllFormat: "Dừng tất cả các tiến trình “%@”?",
+        confirmKillTreeFormat: "Dừng %@ và tất cả các tiến trình con?",
+        killFailedTitle: "Không thể dừng tiến trình",
+        killFailedMessage: "Tiến trình có thể đã thoát hoặc yêu cầu thêm đặc quyền quản trị.",
+        adminPromptFormat: "Vorssaint cần quyền quản trị viên để kết thúc “%@”."
+    )
+
     static let enUS = KillProcessFeatureStrings(
         pageTitle: "Kill Process",
         browseSubtitle: "Browse & Kill",

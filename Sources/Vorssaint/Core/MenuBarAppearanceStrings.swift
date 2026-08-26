@@ -32,11 +32,25 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension MenuBarAppearanceStrings {
+    static let vi = MenuBarAppearanceStrings(
+        label: "Hiển thị mức sử dụng",
+        values: "Giá trị",
+        bars: "Thanh biểu đồ",
+        caption: "Thanh biểu đồ áp dụng cho mức dùng CPU, GPU, bộ nhớ và đĩa. Các chỉ số khác vẫn ở dạng số.",
+        customize: "Màu sắc thanh và giới hạn",
+        normalColor: "Màu bình thường",
+        mediumColor: "Màu trung bình",
+        highColor: "Màu cao",
+        mediumFrom: "Trung bình từ",
+        highFrom: "Cao từ"
+    )
+
     static let enUS = MenuBarAppearanceStrings(
         label: "Usage display",
         values: "Values",

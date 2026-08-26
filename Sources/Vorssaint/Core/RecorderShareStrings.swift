@@ -31,11 +31,24 @@ extension FeatureStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension RecorderShareStrings {
+    static let vi = RecorderShareStrings(
+        caption: "Chọn 1 hoặc 6 giờ. Video cuối cùng được nén trên máy Mac này để dung lượng dưới 100 MB và tự động xóa.",
+        privacyData: "Vorssaint chỉ gửi video hoàn chỉnh được tạo từ bản ghi này, bao gồm cả âm thanh bạn đã giữ lại, và thời hạn bạn chọn. Không gửi tên, tài khoản hoặc định danh thiết bị của bạn.",
+        privacyStorage: "Các nhà cung cấp mạng và dịch vụ xử lý tạm thời địa chỉ IP công khai của bạn để ngăn chặn lạm dụng. Video và siêu dữ liệu liên kết sẽ bị xóa vĩnh viễn khi bạn xóa liên kết hoặc hết hạn. Dịch vụ không tạo bản sao lưu.",
+        privacyAccess: "Bất kỳ ai có liên kết đều có thể xem, tải về, lưu hoặc chia sẻ lại video. Các liên kết đang hoạt động có thể được người vận hành dịch vụ kiểm duyệt chống lạm dụng. Chỉ chia sẻ với những người bạn tin tưởng.",
+        compressing: "Đang nén để chia sẻ…",
+        uploading: "Đang tải lên an toàn…",
+        tooLarge: "Bản ghi này không thể nén xuống dưới 100 MB mà không làm giảm quá nhiều chất lượng.",
+        failed: "Không thể tạo liên kết tạm thời",
+        tourCaption: "Nén bản ghi đã hoàn tất trên máy Mac này và chia sẻ trong 1 hoặc 6 giờ."
+    )
+
     static let enUS = RecorderShareStrings(
         caption: "Choose 1 or 6 hours. The final video is compressed on this Mac to fit under 100 MB and deleted automatically.",
         privacyData: "Vorssaint sends only the final video created from this recording, including the audio you kept, and the expiration you choose. It does not send your name, account or device identifier.",

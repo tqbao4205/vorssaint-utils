@@ -50,11 +50,45 @@ struct WhatsAppOrganizerStrings {
         case .zhHans: return .zhHans
         case .zhTW: return .zhTW
         case .zhHK: return .zhHK
+        case .vi: return .vi
         }
     }
 }
 
 extension WhatsAppOrganizerStrings {
+    static let vi = WhatsAppOrganizerStrings(
+        title: "Tự động sắp xếp",
+        experimental: "Thử nghiệm",
+        description: "Di chuyển các tệp tải về ổn định của WhatsApp vào thư mục riêng và phát hiện các lượt tải lại tệp trùng lặp chính xác.",
+        enabled: "Tự động sắp xếp",
+        enabledCaption: "WhatsApp có thể tải lại tệp đã di chuyển. Vorssaint không thể ngăn chặn lượt tải về qua mạng, nhưng có thể phát hiện và loại bỏ bản sao trùng lặp hoàn toàn.",
+        destination: "Thư mục đích",
+        chooseFolder: "Chọn…",
+        useDefault: "Dùng Tải về/WhatsApp",
+        invalidDestination: "Hãy chọn một thư mục khác ngoài chính thư mục Tải về.",
+        organization: "Cấu trúc thư mục",
+        flat: "Không có thư mục con",
+        byType: "Theo loại tệp",
+        byMonth: "Theo năm và tháng",
+        delay: "Chờ trước khi di chuyển",
+        minutesFormat: "%d phút",
+        duplicateAction: "Khi cùng một tệp được tải lại",
+        trashDuplicate: "Chuyển bản sao mới vào Thùng rác",
+        keepBoth: "Giữ cả hai bản sao",
+        replaceExisting: "Thay thế bản sao đã sắp xếp",
+        duplicateCaption: "Các tệp trùng lặp được xác nhận bằng chuỗi băm SHA-256 riêng tư. Bản sao đã sắp xếp được kiểm tra lại trước khi loại bỏ bản sao khác.",
+        organizeNow: "Sắp xếp các tệp đủ điều kiện ngay",
+        undo: "Hoàn tác lần sắp xếp gần nhất",
+        waiting: "Đang theo dõi Tải về",
+        working: "Đang sắp xếp các tệp WhatsApp…",
+        resultFormat: "Đã di chuyển %1$d · Trùng lặp %2$d · Thất bại %3$d",
+        lastRunFormat: "Lần sắp xếp gần nhất %@: Đã di chuyển %d · Trùng lặp %d · Thất bại %d",
+        neverRun: "Chưa có lần sắp xếp nào chạy.",
+        notificationTitle: "Sắp xếp WhatsApp",
+        notificationFormat: "Đã sắp xếp %1$d tệp. Đã xử lý %2$d lượt tải trùng lặp. %3$d thất bại.",
+        privacyNote: "Để xác định các bản trùng lặp chính xác, các byte tệp chỉ được đọc cục bộ trong khi tính toán mã băm mật mã. Nội dung và các đoạn chat không bao giờ được lưu trữ hay tải lên."
+    )
+
     static let enUS = WhatsAppOrganizerStrings(
         title: "Automatic organization",
         experimental: "Experimental",
