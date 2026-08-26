@@ -497,7 +497,7 @@ private enum UtilityPanelItem: String, PanelOrderItem, Identifiable {
     // are migrated once without disturbing the rest of the user's layout.
     case screenshot, quickLauncher, appUpdates, cleaner, homebrew, media, clipboard, windowLayout,
          uninstaller, cleanURL, cleaning, screenOCR, colorPicker, cameraPreview, scratchpad,
-         commandBar, screenRecorder
+         commandBar, screenRecorder, webBar
 
     var id: String { rawValue }
 
@@ -522,6 +522,7 @@ private enum UtilityPanelItem: String, PanelOrderItem, Identifiable {
         case .cameraPreview: return .cameraPreview
         case .scratchpad: return .scratchpad
         case .commandBar: return .commandBar
+        case .webBar: return .webBar
         }
     }
 }
@@ -555,6 +556,7 @@ struct UtilitiesSection: View {
     @AppStorage(DefaultsKey.panelUtilityCameraPreview) private var showCameraPreview = true
     @AppStorage(DefaultsKey.panelUtilityScratchpad) private var showScratchpad = true
     @AppStorage(DefaultsKey.panelUtilityCommandBar) private var showCommandBar = true
+    @AppStorage(DefaultsKey.panelUtilityWebBar) private var showWebBar = true
     @AppStorage(DefaultsKey.panelUtilityScreenRecorder) private var showScreenRecorder = true
     @ObservedObject private var recorder = ScreenRecorderService.shared
     @AppStorage(DefaultsKey.clipboardHistoryEnabled) private var clipboardEnabled = false
@@ -688,6 +690,7 @@ struct UtilitiesSection: View {
         case .cameraPreview: return showCameraPreview
         case .scratchpad: return showScratchpad
         case .commandBar: return showCommandBar
+        case .webBar: return showWebBar
         case .quickLauncher: return showQuickLauncher
         case .screenshot: return showScreenshot
         case .screenRecorder: return showScreenRecorder
@@ -925,6 +928,20 @@ struct UtilitiesSection: View {
                                         CommandBarService.shared.show()
                                     }
                                 })
+        case .webBar:
+            UtilityActionButton(title: FeatureStrings.webBar(l10n.language).pageTitle,
+                                caption: FeatureStrings.webBar(l10n.language).panelCaption,
+                                systemImage: "globe",
+                                isEditing: editing,
+                                showsDragHandle: true,
+                                visibility: $showWebBar,
+                                shortcutHint: shortcutHint(.webBar),
+                                action: {
+                                    appDelegate()?.closePopover()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                                        WebBarService.shared.show()
+                                    }
+                                })
         }
     }
 
@@ -1001,6 +1018,8 @@ struct UtilitiesSection: View {
         showScratchpad = true
         showQuickLauncher = true
         showCommandBar = true
+        showWebBar = true
+        showScreenRecorder = true
     }
 
     private func grantAccessibility() {

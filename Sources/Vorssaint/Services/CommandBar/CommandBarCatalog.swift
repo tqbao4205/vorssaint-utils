@@ -380,6 +380,15 @@ enum CommandBarCatalog {
                 shortcut: roleShortcut(.scratchpad),
                 run: { _ in afterBeat { ScratchpadService.shared.show() } }))
         }
+        if AppFeature.webBar.isAvailable {
+            entries.append(CommandBarEntry(
+                id: "action.webBar",
+                title: FeatureStrings.webBar(language).pageTitle,
+                subtitle: area(.webBar, under: FeatureStrings.webBar(language).pageTitle),
+                icon: .symbol("globe"),
+                shortcut: roleShortcut(.webBar),
+                run: { _ in afterBeat { WebBarService.shared.show() } }))
+        }
         if AppFeature.cameraPreview.isAvailable {
             entries.append(CommandBarEntry(
                 id: "action.cameraPreview",

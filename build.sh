@@ -199,6 +199,7 @@ if (( TEST )); then
         Sources/Vorssaint/Core/ScratchpadStrings.swift \
         Sources/Vorssaint/Core/FinderRenameStrings.swift \
         Sources/Vorssaint/Core/CommandBarStrings.swift \
+        Sources/Vorssaint/Core/WebBarStrings.swift \
         Sources/Vorssaint/Core/FeedbackStrings.swift \
         Sources/Vorssaint/Core/RadialMenuStrings.swift \
         Sources/Vorssaint/Core/MenuBarAppearanceStrings.swift \
@@ -287,6 +288,9 @@ if (( TEST )); then
         Sources/Vorssaint/Services/CommandBar/CommandBarQueryMemory.swift \
         Sources/Vorssaint/Services/SpotlightNamesSupport.swift \
         Sources/Vorssaint/Services/QuickTools/MicMuteSupport.swift \
+        Sources/Vorssaint/Services/QuickTools/WebBarModels.swift \
+        Sources/Vorssaint/Services/QuickTools/WebBarFaviconManager.swift \
+        Sources/Vorssaint/Services/QuickTools/WebBarNotificationManager.swift \
         Sources/Vorssaint/Services/QuickTools/QuickTogglesSupport.swift \
         Sources/Vorssaint/Services/QuickTools/ScreenshotCapturePolicy.swift \
         Sources/Vorssaint/Services/QuickTools/ScreenshotSupport.swift \

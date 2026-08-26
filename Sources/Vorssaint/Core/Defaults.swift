@@ -467,6 +467,18 @@ enum DefaultsKey {
     static let panelUtilityScreenOCR = "panelUtilityScreenOCR"
     static let panelUtilityCameraPreview = "panelUtilityCameraPreview"
     static let panelUtilityScratchpad = "panelUtilityScratchpad"
+    static let panelUtilityWebBar = "panelUtilityWebBar"
+    static let webBarShowOnMenuBar = "webBarShowOnMenuBar"
+    static let webBarShortcutEnabled = "webBarShortcutEnabled"
+    static let webBarShortcut = "webBarShortcut"
+    static let webBarAutoPause = "webBarAutoPause"
+    static let webBarAdBlock = "webBarAdBlock"
+    static let webBarCloseOnClickOutside = "webBarCloseOnClickOutside"
+    static let webBarBackgroundOpacity = "webBarBackgroundOpacity"
+    static let webBarNotificationsEnabled = "webBarNotificationsEnabled"
+    static let webBarNotificationBadges = "webBarNotificationBadges"
+    static let webBarNotificationSound = "webBarNotificationSound"
+    static let webBarDocument = "webBarDocument"
     static let clipboardHistoryShortcutEnabled = "clipboardHistoryShortcutEnabled"
     static let clipboardHistoryShortcut = "clipboardHistoryShortcut"
     // Screenshot capture and editor.
@@ -1147,6 +1159,17 @@ enum Defaults {
         DefaultsKey.panelUtilityScreenOCR: true,
         DefaultsKey.panelUtilityCameraPreview: true,
         DefaultsKey.panelUtilityScratchpad: true,
+        DefaultsKey.panelUtilityWebBar: true,
+        DefaultsKey.webBarShowOnMenuBar: true,
+        DefaultsKey.webBarShortcutEnabled: false,
+        DefaultsKey.webBarShortcut: GlobalShortcut.webBarDefault.storageValue,
+        DefaultsKey.webBarAutoPause: true,
+        DefaultsKey.webBarAdBlock: true,
+        DefaultsKey.webBarCloseOnClickOutside: false,
+        DefaultsKey.webBarBackgroundOpacity: 0.0,
+        DefaultsKey.webBarNotificationsEnabled: true,
+        DefaultsKey.webBarNotificationBadges: true,
+        DefaultsKey.webBarNotificationSound: true,
         DefaultsKey.clipboardHistoryShortcutEnabled: true,
         DefaultsKey.clipboardHistoryShortcut: GlobalShortcut.clipboardDefault.storageValue,
         DefaultsKey.recorderShortcutEnabled: false,

@@ -213,6 +213,9 @@ struct GlobalShortcut: Equatable, Hashable {
     // layer, matching how the system numbers its own capture keys.
     static let screenRecorderDefault = GlobalShortcut(keyCode: Int64(kVK_ANSI_5),
                                                       modifiers: [.control, .option, .command])
+    // B for browser / WebBar, on Option-Command layer.
+    static let webBarDefault = GlobalShortcut(keyCode: Int64(kVK_ANSI_B),
+                                              modifiers: [.option, .command])
 
     static func saved(for key: String, fallback: GlobalShortcut) -> GlobalShortcut {
         if let raw = UserDefaults.standard.string(forKey: key),
@@ -593,6 +596,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
     case snippetLibrary
     case commandBar
     case screenRecorder
+    case webBar
 
     var id: String { storageKey }
 
@@ -620,6 +624,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .snippetLibrary: return DefaultsKey.snippetLibraryShortcut
         case .commandBar: return DefaultsKey.commandBarShortcut
         case .screenRecorder: return DefaultsKey.recorderShortcut
+        case .webBar: return DefaultsKey.webBarShortcut
         }
     }
 
@@ -647,6 +652,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .snippetLibrary: return .snippetLibraryDefault
         case .commandBar: return .commandBarDefault
         case .screenRecorder: return .screenRecorderDefault
+        case .webBar: return .webBarDefault
         }
     }
 
@@ -682,6 +688,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .snippetLibrary: return FeatureStrings.snippets(L10n.shared.language).libraryTitle
         case .commandBar: return FeatureStrings.commandBar(L10n.shared.language).pageTitle
         case .screenRecorder: return FeatureStrings.recorder(L10n.shared.language).pageTitle
+        case .webBar: return FeatureStrings.webBar(L10n.shared.language).pageTitle
         }
     }
 
@@ -726,6 +733,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .snippetLibrary: return [DefaultsKey.snippetLibraryEnabled]
         case .commandBar: return [DefaultsKey.commandBarShortcutEnabled]
         case .screenRecorder: return [DefaultsKey.recorderShortcutEnabled]
+        case .webBar: return [DefaultsKey.webBarShortcutEnabled]
         }
     }
 
@@ -753,6 +761,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .snippetLibrary: return .textSnippets
         case .commandBar: return .commandBar
         case .screenRecorder: return .screenRecorder
+        case .webBar: return .webBar
         }
     }
 

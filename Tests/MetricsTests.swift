@@ -10407,7 +10407,7 @@ struct MetricsTests {
 
         // MARK: Features hub catalog
 
-        expect(AppFeature.allCases.count == 54, "feature catalog has 54 features")
+        expect(AppFeature.allCases.count == 55, "feature catalog has 55 features")
         expect(Set(AppFeature.allCases.map(\.rawValue)).count == AppFeature.allCases.count,
                "feature ids are unique")
         expect(AppFeature.allCases.map(\.rawValue) == [
@@ -10420,7 +10420,7 @@ struct MetricsTests {
             "keepAwake", "brightness", "extraBrightness", "bluetoothSleep",
             "quickLauncher", "quickToggles", "colorPicker", "screenOCR", "cleaningMode", "mediaTools",
             "cleaner", "uninstaller", "homebrew", "appUpdates", "screenshot", "cameraPreview",
-            "radialMenu", "scratchpad", "commandBar", "screenRecorder", "killProcess",
+            "radialMenu", "scratchpad", "commandBar", "screenRecorder", "killProcess", "webBar",
             "monitorCPU", "monitorGPU", "monitorMemory", "monitorNetwork", "monitorDisk", "monitorPower",
             "fanControl",
         ], "feature ids are stable (they persist inside availability keys)")
@@ -11297,6 +11297,12 @@ struct MetricsTests {
                    "every feedback string is set for \(language.rawValue)")
             expect(feedbackValues.allSatisfy { !$0.contains("—") },
                    "no em-dash in visible feedback strings (\(language.rawValue))")
+            let webBarValues = Mirror(reflecting: FeatureStrings.webBar(language)).children
+                .compactMap { $0.value as? String }
+            expect(webBarValues.count == 33 && webBarValues.allSatisfy { !$0.isEmpty },
+                   "every web bar string is set for \(language.rawValue)")
+            expect(webBarValues.allSatisfy { !$0.contains("—") },
+                   "no em-dash in visible web bar strings (\(language.rawValue))")
             expect(FeatureStrings.feedback(language).charactersFormat.contains("%d"),
                    "feedback character format keeps its placeholder (\(language.rawValue))")
             let cameraPreviewValues = Mirror(reflecting: FeatureStrings.cameraPreview(language)).children
