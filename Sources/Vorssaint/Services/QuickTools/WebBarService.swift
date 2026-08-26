@@ -30,6 +30,7 @@ final class WebBarService: NSObject, ObservableObject {
     private let hotkey = QuickToolHotkey(id: 19)
     private var panel: NSPanel?
     private var keyMonitor: Any?
+    private var localClickMonitor: Any?
     private var outsideClickMonitor: Any?
     private var pendingSave: DispatchWorkItem?
     private var webViews: [UUID: WKWebView] = [:]
@@ -575,8 +576,24 @@ final class WebBarService: NSObject, ObservableObject {
 
     private func installMonitors(for panel: NSPanel) {
         removeMonitors()
-        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
-            guard let self = self else { return event }
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self, weak panel] event in
+            guard let self, let panel, event.window === panel else { return event }
+
+            let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+            if let command = WebBarZoomShortcut.command(
+                forKeyCode: event.keyCode,
+                hasCommand: flags.contains(.command),
+                hasControl: flags.contains(.control),
+                hasOption: flags.contains(.option)
+            ) {
+                switch command {
+                case .zoomIn: self.zoomIn()
+                case .zoomOut: self.zoomOut()
+                case .reset: self.zoomReset()
+                }
+                return nil
+            }
+
             if event.keyCode == 53 { // Esc
                 if let active = self.activeTab, active.urlString.isEmpty, self.document.tabs.count > 1 {
                     self.closeTab(id: active.id)
@@ -590,18 +607,33 @@ final class WebBarService: NSObject, ObservableObject {
             return event
         }
 
-        outsideClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
-            guard let self = self,
-                  UserDefaults.standard.bool(forKey: DefaultsKey.webBarCloseOnClickOutside),
-                  !self.document.isPinned,
-                  self.isVisible else { return }
-            self.hide()
+        let mouseEvents: NSEvent.EventTypeMask = [.leftMouseDown, .rightMouseDown, .otherMouseDown]
+        localClickMonitor = NSEvent.addLocalMonitorForEvents(matching: mouseEvents) { [weak self, weak panel] event in
+            guard let self, let panel, panel.isVisible, !self.document.isPinned else { return event }
+            if event.window !== panel, !Self.mouseIsInside(panel) {
+                self.hide()
+            }
+            return event
         }
+        outsideClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: mouseEvents) { [weak self, weak panel] event in
+            guard let self, let panel, panel.isVisible, !self.document.isPinned else { return }
+            if event.windowNumber != panel.windowNumber, !Self.mouseIsInside(panel) {
+                self.hide()
+            }
+        }
+    }
+
+    /// Treat the resize edge as part of WebBar so grabbing it never dismisses
+    /// the panel before AppKit can begin the resize operation.
+    private static func mouseIsInside(_ panel: NSPanel) -> Bool {
+        panel.frame.insetBy(dx: -2, dy: -2).contains(NSEvent.mouseLocation)
     }
 
     private func removeMonitors() {
         if let keyMonitor { NSEvent.removeMonitor(keyMonitor) }
         keyMonitor = nil
+        if let localClickMonitor { NSEvent.removeMonitor(localClickMonitor) }
+        localClickMonitor = nil
         if let outsideClickMonitor { NSEvent.removeMonitor(outsideClickMonitor) }
         outsideClickMonitor = nil
     }

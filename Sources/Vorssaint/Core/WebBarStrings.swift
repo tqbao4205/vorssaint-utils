@@ -35,6 +35,8 @@ struct WebBarFeatureStrings {
     let zoomIn: String
     let zoomOut: String
     let zoomReset: String
+    let notificationSectionTitle: String
+    let experienceSectionTitle: String
     let notificationsToggle: String
     let notificationBadgesToggle: String
     let notificationSoundToggle: String
@@ -93,6 +95,8 @@ extension WebBarFeatureStrings {
         zoomIn: "Zoom In",
         zoomOut: "Zoom Out",
         zoomReset: "Actual Size",
+        notificationSectionTitle: "Notifications & Badges",
+        experienceSectionTitle: "Experience & Protection",
         notificationsToggle: "Enable Web Notifications",
         notificationBadgesToggle: "Show Unread Badges on Menu Bar",
         notificationSoundToggle: "Play Sound for Notifications"
@@ -129,6 +133,8 @@ extension WebBarFeatureStrings {
         zoomIn: "Aumentar zoom",
         zoomOut: "Diminuir zoom",
         zoomReset: "Tamanho real",
+        notificationSectionTitle: "Notificações e emblemas",
+        experienceSectionTitle: "Experiência e proteção",
         notificationsToggle: "Ativar notificações da Web",
         notificationBadgesToggle: "Mostrar emblemas de não lidos na barra de menus",
         notificationSoundToggle: "Reproduzir som para notificações"
@@ -165,6 +171,8 @@ extension WebBarFeatureStrings {
         zoomIn: "Yakınlaştır",
         zoomOut: "Uzaklaştır",
         zoomReset: "Gerçek Boyut",
+        notificationSectionTitle: "Bildirimler ve rozetler",
+        experienceSectionTitle: "Deneyim ve koruma",
         notificationsToggle: "Web Bildirimlerini Etkinleştir",
         notificationBadgesToggle: "Menü Çubuğunda Okunmamış Rozetlerini Göster",
         notificationSoundToggle: "Bildirimler için Ses Çal"
@@ -201,6 +209,8 @@ extension WebBarFeatureStrings {
         zoomIn: "Увеличить",
         zoomOut: "Уменьшить",
         zoomReset: "Реальный размер",
+        notificationSectionTitle: "Уведомления и значки",
+        experienceSectionTitle: "Удобство и защита",
         notificationsToggle: "Включить веб-уведомления",
         notificationBadgesToggle: "Показывать значки непрочитанных в строке меню",
         notificationSoundToggle: "Воспроизводить звук для уведомлений"
@@ -237,6 +247,8 @@ extension WebBarFeatureStrings {
         zoomIn: "Acercar",
         zoomOut: "Alejar",
         zoomReset: "Tamaño real",
+        notificationSectionTitle: "Notificaciones e insignias",
+        experienceSectionTitle: "Experiencia y protección",
         notificationsToggle: "Activar notificaciones web",
         notificationBadgesToggle: "Mostrar distintivos de no leídos en la barra de menús",
         notificationSoundToggle: "Reproducir sonido para notificaciones"
@@ -273,6 +285,8 @@ extension WebBarFeatureStrings {
         zoomIn: "Vergrößern",
         zoomOut: "Verkleinern",
         zoomReset: "Originalgröße",
+        notificationSectionTitle: "Mitteilungen & Kennzeichen",
+        experienceSectionTitle: "Nutzung & Schutz",
         notificationsToggle: "Web-Benachrichtigungen aktivieren",
         notificationBadgesToggle: "Ungelesene Badges in der Menüleiste anzeigen",
         notificationSoundToggle: "Ton für Benachrichtigungen abspielen"
@@ -309,6 +323,8 @@ extension WebBarFeatureStrings {
         zoomIn: "Ingrandisci",
         zoomOut: "Rimpicciolisci",
         zoomReset: "Dimensioni reali",
+        notificationSectionTitle: "Notifiche e badge",
+        experienceSectionTitle: "Esperienza e protezione",
         notificationsToggle: "Abilita notifiche web",
         notificationBadgesToggle: "Mostra badge non letti nella barra dei menu",
         notificationSoundToggle: "Riproduci suono per le notifiche"
@@ -345,6 +361,8 @@ extension WebBarFeatureStrings {
         zoomIn: "Zoom avant",
         zoomOut: "Zoom arrière",
         zoomReset: "Taille réelle",
+        notificationSectionTitle: "Notifications et badges",
+        experienceSectionTitle: "Expérience et protection",
         notificationsToggle: "Activer les notifications Web",
         notificationBadgesToggle: "Afficher les badges non lus dans la barre des menus",
         notificationSoundToggle: "Émettre un son pour les notifications"
@@ -381,6 +399,8 @@ extension WebBarFeatureStrings {
         zoomIn: "放大",
         zoomOut: "缩小",
         zoomReset: "实际大小",
+        notificationSectionTitle: "通知与标记",
+        experienceSectionTitle: "体验与保护",
         notificationsToggle: "启用网页通知",
         notificationBadgesToggle: "在菜单栏显示未读红点标记",
         notificationSoundToggle: "播放通知声音"
@@ -417,6 +437,8 @@ extension WebBarFeatureStrings {
         zoomIn: "放大",
         zoomOut: "縮小",
         zoomReset: "實際大小",
+        notificationSectionTitle: "通知與標記",
+        experienceSectionTitle: "體驗與保護",
         notificationsToggle: "啟用網頁通知",
         notificationBadgesToggle: "在選單列顯示未讀紅點標記",
         notificationSoundToggle: "播放通知聲音"
@@ -453,6 +475,8 @@ extension WebBarFeatureStrings {
         zoomIn: "放大",
         zoomOut: "縮小",
         zoomReset: "實際大小",
+        notificationSectionTitle: "通知與標記",
+        experienceSectionTitle: "體驗與保護",
         notificationsToggle: "啟用網頁通知",
         notificationBadgesToggle: "在選單列顯示未讀紅點標記",
         notificationSoundToggle: "播放通知聲音"
@@ -489,6 +513,8 @@ extension WebBarFeatureStrings {
         zoomIn: "拡大",
         zoomOut: "縮小",
         zoomReset: "実際のサイズ",
+        notificationSectionTitle: "通知とバッジ",
+        experienceSectionTitle: "体験と保護",
         notificationsToggle: "Web通知を有効にする",
         notificationBadgesToggle: "メニューバーに未読バッジを表示",
         notificationSoundToggle: "通知音を鳴らす"
@@ -525,6 +551,8 @@ extension WebBarFeatureStrings {
         zoomIn: "확대",
         zoomOut: "축소",
         zoomReset: "실제 크기",
+        notificationSectionTitle: "알림 및 배지",
+        experienceSectionTitle: "사용 경험 및 보호",
         notificationsToggle: "웹 알림 활성화",
         notificationBadgesToggle: "메뉴 막대에 읽지 않은 배지 표시",
         notificationSoundToggle: "알림 소리 재생"
@@ -561,6 +589,8 @@ extension WebBarFeatureStrings {
         zoomIn: "Phóng to",
         zoomOut: "Thu nhỏ",
         zoomReset: "Kích thước thực",
+        notificationSectionTitle: "Thông báo & Huy hiệu",
+        experienceSectionTitle: "Trải nghiệm & Bảo vệ",
         notificationsToggle: "Bật thông báo Web (HTML5 Notifications)",
         notificationBadgesToggle: "Hiện chấm đỏ tin nhắn chưa đọc trên Menu Bar",
         notificationSoundToggle: "Phát âm thanh khi có thông báo"

@@ -1075,6 +1075,44 @@ struct MetricsTests {
         expect(!MouseNavigationSupport.shouldPassThrough(bundleIdentifier: nil),
                "an unknown frontmost app keeps the navigation behavior")
 
+        // MARK: WebBar zoom shortcuts
+
+        expect(WebBarZoomShortcut.command(forKeyCode: 24,
+                                          hasCommand: true,
+                                          hasControl: false,
+                                          hasOption: false) == .zoomIn,
+               "WebBar Command-= zooms in")
+        expect(WebBarZoomShortcut.command(forKeyCode: 69,
+                                          hasCommand: true,
+                                          hasControl: false,
+                                          hasOption: false) == .zoomIn,
+               "WebBar Command-keypad-plus zooms in")
+        expect(WebBarZoomShortcut.command(forKeyCode: 27,
+                                          hasCommand: true,
+                                          hasControl: false,
+                                          hasOption: false) == .zoomOut,
+               "WebBar Command-minus zooms out")
+        expect(WebBarZoomShortcut.command(forKeyCode: 78,
+                                          hasCommand: true,
+                                          hasControl: false,
+                                          hasOption: false) == .zoomOut,
+               "WebBar Command-keypad-minus zooms out")
+        expect(WebBarZoomShortcut.command(forKeyCode: 29,
+                                          hasCommand: true,
+                                          hasControl: false,
+                                          hasOption: false) == .reset,
+               "WebBar Command-0 resets zoom")
+        expect(WebBarZoomShortcut.command(forKeyCode: 24,
+                                          hasCommand: false,
+                                          hasControl: false,
+                                          hasOption: false) == nil,
+               "WebBar leaves an unmodified plus key to the web page")
+        expect(WebBarZoomShortcut.command(forKeyCode: 24,
+                                          hasCommand: true,
+                                          hasControl: false,
+                                          hasOption: true) == nil,
+               "WebBar leaves Command-Option shortcuts to the web page")
+
         // MARK: Smooth scrolling
 
         expect(SmoothScrollSupport.ticks(line: 1, fixedPoint: 1.0) == 1.0,
@@ -11299,7 +11337,7 @@ struct MetricsTests {
                    "no em-dash in visible feedback strings (\(language.rawValue))")
             let webBarValues = Mirror(reflecting: FeatureStrings.webBar(language)).children
                 .compactMap { $0.value as? String }
-            expect(webBarValues.count == 33 && webBarValues.allSatisfy { !$0.isEmpty },
+            expect(webBarValues.count == 35 && webBarValues.allSatisfy { !$0.isEmpty },
                    "every web bar string is set for \(language.rawValue)")
             expect(webBarValues.allSatisfy { !$0.contains("—") },
                    "no em-dash in visible web bar strings (\(language.rawValue))")

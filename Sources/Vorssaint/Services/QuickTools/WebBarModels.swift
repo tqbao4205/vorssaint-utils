@@ -55,6 +55,31 @@ enum WebBarViewportMode: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+enum WebBarZoomCommand: Equatable {
+    case zoomIn
+    case zoomOut
+    case reset
+}
+
+/// Resolves browser-style zoom shortcuts without depending on the current
+/// keyboard layout. Shift is deliberately ignored so both Command-= and the
+/// customary Command-+ reach zoom in.
+enum WebBarZoomShortcut {
+    static func command(forKeyCode keyCode: UInt16,
+                        hasCommand: Bool,
+                        hasControl: Bool,
+                        hasOption: Bool) -> WebBarZoomCommand? {
+        guard hasCommand, !hasControl, !hasOption else { return nil }
+
+        switch keyCode {
+        case 24, 69: return .zoomIn      // ANSI =/+ and keypad +
+        case 27, 78: return .zoomOut     // ANSI - and keypad -
+        case 29, 82: return .reset       // ANSI 0 and keypad 0
+        default: return nil
+        }
+    }
+}
+
 enum WebBarQuickAppCategory: String, Codable, CaseIterable {
     case ai
     case tools

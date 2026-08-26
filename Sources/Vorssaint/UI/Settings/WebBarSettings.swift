@@ -19,41 +19,31 @@ struct WebBarSettings: View {
     var body: some View {
         Form {
             Section {
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text("WebBar")
-                                .font(.system(size: 14, weight: .semibold))
-                            Text(strings.panelCaption)
-                                .font(.system(size: 11))
-                                .foregroundStyle(.secondary)
-                        }
-                        Spacer()
-                        Button {
-                            service.show()
-                        } label: {
-                            Label(strings.openButton, systemImage: "globe")
-                                .font(.system(size: 12, weight: .medium))
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.small)
-                    }
-                    .padding(.bottom, 4)
-
-                    Toggle(strings.showOnMenuBar, isOn: $showOnMenuBar)
-                        .onChange(of: showOnMenuBar) { _, _ in
-                            service.syncWithPreferences()
-                        }
+                Button {
+                    service.show()
+                } label: {
+                    Label(strings.openButton, systemImage: "globe")
+                        .frame(maxWidth: .infinity)
                 }
-                .padding(.vertical, 4)
+                .buttonStyle(.bordered)
+                .controlSize(.large)
+
+                Text(strings.panelCaption)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                Toggle(strings.showOnMenuBar, isOn: $showOnMenuBar)
+                    .onChange(of: showOnMenuBar) { _, _ in
+                        service.syncWithPreferences()
+                    }
             } header: {
                 Text(strings.pageTitle)
             }
 
             Section {
                 Toggle(strings.notificationsToggle, isOn: $notificationsEnabled)
-                    .onChange(of: notificationsEnabled) { _, val in
-                        if val {
+                    .onChange(of: notificationsEnabled) { _, isEnabled in
+                        if isEnabled {
                             WebBarNotificationManager.shared.requestAuthorization()
                         }
                     }
@@ -67,65 +57,77 @@ struct WebBarSettings: View {
                 Toggle(strings.notificationSoundToggle, isOn: $notificationSound)
                     .disabled(!notificationsEnabled)
             } header: {
-                Text("Thông báo & Huy hiệu")
+                Text(strings.notificationSectionTitle)
             }
 
             Section {
                 Toggle(strings.autoPauseToggle, isOn: $autoPause)
-                    .onChange(of: autoPause) { _, val in
-                        service.document.autoPauseMedia = val
+                    .onChange(of: autoPause) { _, isEnabled in
+                        service.document.autoPauseMedia = isEnabled
                     }
                 Text(strings.autoPauseCaption)
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
                 Toggle(strings.adBlockToggle, isOn: $adBlock)
-                    .onChange(of: adBlock) { _, val in
-                        service.document.enableAdBlock = val
+                    .onChange(of: adBlock) { _, isEnabled in
+                        service.document.enableAdBlock = isEnabled
                     }
                 Text(strings.adBlockCaption)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } header: {
-                Text("Trải nghiệm & Bảo vệ")
+                Text(strings.experienceSectionTitle)
             }
 
             Section {
-                VStack(alignment: .leading, spacing: 8) {
-                    ForEach(WebBarQuickAppPresets.catalog) { app in
-                        HStack(spacing: 12) {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                    .fill(Color(nsColor: NSColor(hex: app.colorHex) ?? .controlAccentColor).opacity(0.15))
-                                    .frame(width: 28, height: 28)
-                                Image(systemName: app.iconSymbol)
-                                    .font(.system(size: 13, weight: .semibold))
-                                    .foregroundStyle(Color(nsColor: NSColor(hex: app.colorHex) ?? .controlAccentColor))
-                            }
-
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(app.name)
-                                    .font(.system(size: 12, weight: .medium))
-                                Text(app.description)
-                                    .font(.system(size: 10))
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            Text(app.defaultViewport.rawValue)
-                                .font(.system(size: 10, weight: .medium))
-                                .foregroundStyle(.secondary)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 3)
-                                .background(Color.secondary.opacity(0.12))
-                                .clipShape(Capsule())
-                        }
-                        .padding(.vertical, 3)
-                    }
+                ForEach(WebBarQuickAppPresets.catalog) { app in
+                    quickAppRow(app)
                 }
             } header: {
                 Text(strings.quickAppsTitle)
             }
         }
+        // Keep this page on the same native grouped Form system as Screenshot
+        // settings: shared margins, rounded section surfaces and row dividers.
+        .formStyle(.grouped)
+    }
+
+    private func quickAppRow(_ app: WebBarQuickApp) -> some View {
+        HStack(spacing: 12) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(appColor(app).opacity(0.14))
+                Image(systemName: app.iconSymbol)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(appColor(app))
+            }
+            .frame(width: 34, height: 34)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(app.name)
+                    .font(.body.weight(.medium))
+                Text(app.description)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+
+            Spacer(minLength: 12)
+
+            Label(app.defaultViewport.rawValue, systemImage: app.defaultViewport.iconName)
+                .font(.caption.weight(.medium))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .padding(.horizontal, 9)
+                .padding(.vertical, 4)
+                .background(Color.secondary.opacity(0.10), in: Capsule())
+        }
+        .padding(.vertical, 3)
+    }
+
+    private func appColor(_ app: WebBarQuickApp) -> Color {
+        Color(nsColor: NSColor(hex: app.colorHex) ?? .controlAccentColor)
     }
 }
 
