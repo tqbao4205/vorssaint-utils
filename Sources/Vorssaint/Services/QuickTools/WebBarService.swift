@@ -7,7 +7,7 @@ import Combine
 import SwiftUI
 import WebKit
 
-final class WebBarService: NSObject, ObservableObject {
+final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
     static let shared = WebBarService()
 
     @Published private(set) var shortcutRegistrationFailed = false
@@ -177,6 +177,7 @@ final class WebBarService: NSObject, ObservableObject {
         if document.autoPauseMedia {
             pauseAllMedia()
         }
+        rememberCustomSizeIfNeeded()
         flushSave()
         removeMonitors()
         panel?.orderOut(nil)
@@ -186,6 +187,8 @@ final class WebBarService: NSObject, ObservableObject {
     // MARK: - Tab & Navigation Management
 
     func selectTab(id: UUID) {
+        rememberCustomSizeIfNeeded()
+
         // Clean up unused blank tabs if switching away to another tab
         if let current = activeTab, current.urlString.isEmpty, current.id != id, document.tabs.count > 1 {
             if let idx = document.tabs.firstIndex(where: { $0.id == current.id }) {
@@ -205,6 +208,8 @@ final class WebBarService: NSObject, ObservableObject {
     }
 
     func addNewTab(url: String = "", viewport: WebBarViewportMode = .iphoneSE) {
+        rememberCustomSizeIfNeeded()
+
         // Clean up any extra unused blank tabs
         if url.isEmpty {
             let blankTabs = document.tabs.filter { $0.urlString.isEmpty }
@@ -230,6 +235,8 @@ final class WebBarService: NSObject, ObservableObject {
     func openWebsite(rawInput: String, viewport: WebBarViewportMode = .iphoneSE, forTabID: UUID? = nil) {
         let trimmed = rawInput.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
+
+        rememberCustomSizeIfNeeded()
 
         let targetURL: String
         if trimmed.hasPrefix("http://") || trimmed.hasPrefix("https://") {
@@ -282,6 +289,8 @@ final class WebBarService: NSObject, ObservableObject {
     }
 
     func closeTab(id: UUID) {
+        rememberCustomSizeIfNeeded()
+
         webViews[id]?.stopLoading()
         webViews.removeValue(forKey: id)
 
@@ -310,6 +319,8 @@ final class WebBarService: NSObject, ObservableObject {
     }
 
     func setViewport(_ mode: WebBarViewportMode) {
+        rememberCustomSizeIfNeeded()
+
         guard let activeID = activeTab?.id,
               let idx = document.tabs.firstIndex(where: { $0.id == activeID }) else { return }
         document.tabs[idx].viewport = mode
@@ -493,8 +504,35 @@ final class WebBarService: NSObject, ObservableObject {
         host.sizingOptions = []
         panel.contentViewController = host
         panel.setContentSize(startSize)
+        panel.delegate = self
         self.panel = panel
         return panel
+    }
+
+    func windowDidEndLiveResize(_ notification: Notification) {
+        guard let resizedPanel = notification.object as? NSPanel,
+              resizedPanel === panel else { return }
+        rememberCustomSizeIfNeeded(from: resizedPanel)
+        flushSave()
+    }
+
+    /// The Custom viewport is a reusable display preset. Remember its final
+    /// content size before another tab or preset resizes the shared panel.
+    private func rememberCustomSizeIfNeeded(from candidate: NSPanel? = nil) {
+        guard activeTab?.viewport == .custom,
+              let currentPanel = candidate ?? panel else { return }
+
+        let size = currentPanel.contentLayoutRect.size
+        let width = Double(size.width.rounded())
+        let height = Double(size.height.rounded())
+        guard width >= 320, height >= 400,
+              abs(document.customWidth - width) >= 0.5
+                || abs(document.customHeight - height) >= 0.5 else { return }
+
+        var updatedDocument = document
+        updatedDocument.customWidth = width
+        updatedDocument.customHeight = height
+        document = updatedDocument
     }
 
     func positionPanelUnderStatusBar(for tabId: UUID? = nil, animated: Bool = false) {
