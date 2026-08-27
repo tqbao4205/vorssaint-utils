@@ -327,6 +327,14 @@ final class WebBarCapsuleNSView: NSView {
             isDragging = true
             draggedTabIndex = candidate
             NSCursor.closedHand.set()
+
+            let webTabs = service?.document.tabs.filter { !$0.urlString.isEmpty } ?? []
+            if candidate < webTabs.count {
+                let tab = webTabs[candidate]
+                let tabKey = tab.id.uuidString + "_" + tab.urlString + "_" + (tab.faviconUrl ?? "")
+                let favicon = tabWebIcons[tabKey]
+                WebBarTabDragOverlay.shared.startDrag(tab: tab, favicon: favicon, at: NSEvent.mouseLocation)
+            }
         }
 
         if isDragging, let dragIdx = draggedTabIndex, let service = service {
@@ -341,6 +349,8 @@ final class WebBarCapsuleNSView: NSView {
                         NSCursor.closedHand.set()
                     }
                 }
+                WebBarTabDragOverlay.shared.updateState(isMarkedForDeletion: isMarkedForDeletion)
+                WebBarTabDragOverlay.shared.updatePosition(screenPoint: NSEvent.mouseLocation)
             }
             needsDisplay = true
         }
@@ -352,6 +362,7 @@ final class WebBarCapsuleNSView: NSView {
         let loc = convert(event.locationInWindow, from: nil)
 
         if isDragging {
+            WebBarTabDragOverlay.shared.endDrag(completed: isMarkedForDeletion)
             let webTabs = service.document.tabs.filter { !$0.urlString.isEmpty }
             if isMarkedForDeletion {
                 if let dragIdx = draggedTabIndex, dragIdx < webTabs.count {

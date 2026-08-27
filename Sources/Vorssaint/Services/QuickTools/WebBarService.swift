@@ -22,6 +22,7 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
     @Published var canGoBack: Bool = false
     @Published var canGoForward: Bool = false
     @Published var currentProgress: Double = 0.0
+    @Published private(set) var zoomHUDPercentage: Int?
 
     // Status Bar Capsule
     private(set) var capsuleStatusItem: NSStatusItem?
@@ -33,6 +34,7 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
     private var localClickMonitor: Any?
     private var outsideClickMonitor: Any?
     private var pendingSave: DispatchWorkItem?
+    private var pendingZoomHUDDismissal: DispatchWorkItem?
     private var webViews: [UUID: WKWebView] = [:]
     private var hasLoaded = false
 
@@ -232,21 +234,88 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
         capsuleView?.updateCapsuleLayout()
     }
 
+    // MARK: - URL Validation & Normalization
+
+    static func validateAndNormalizeURL(_ input: String) -> String? {
+        let trimmed = input.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+
+        var urlString = trimmed
+
+        // Check scheme
+        let lower = urlString.lowercased()
+        let hasHttpScheme = lower.hasPrefix("http://")
+        let hasHttpsScheme = lower.hasPrefix("https://")
+
+        if !hasHttpScheme && !hasHttpsScheme {
+            if urlString.contains("://") {
+                return nil
+            }
+            if lower.hasPrefix("localhost") {
+                urlString = "http://" + urlString
+            } else {
+                urlString = "https://" + urlString
+            }
+        }
+
+        // Try components directly or percent-encoded
+        let components = URLComponents(string: urlString)
+            ?? (urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union(.urlPathAllowed).union(CharacterSet(charactersIn: ":/?#"))).flatMap { URLComponents(string: $0) })
+
+        guard let components,
+              let host = components.host,
+              !host.isEmpty else {
+            return nil
+        }
+
+        let lowerHost = host.lowercased()
+
+        if lowerHost.contains(" ") {
+            return nil
+        }
+
+        if lowerHost == "localhost" {
+            return components.url?.absoluteString ?? urlString
+        }
+
+        // IPv4 check
+        let parts = lowerHost.split(separator: ".", omittingEmptySubsequences: false)
+        if parts.count == 4 && parts.allSatisfy({ part in
+            if let num = Int(part), (0...255).contains(num) {
+                return true
+            }
+            return false
+        }) {
+            return components.url?.absoluteString ?? urlString
+        }
+
+        // Domain name check: must have at least 2 parts (e.g. domain.com)
+        if parts.count < 2 || parts.contains(where: { $0.isEmpty }) {
+            return nil
+        }
+
+        // TLD must be at least 2 alpha characters
+        guard let tld = parts.last, tld.count >= 2, tld.allSatisfy({ $0.isLetter }) else {
+            return nil
+        }
+
+        // Host parts should contain alphanumeric or hyphen (not starting or ending with hyphen)
+        for part in parts {
+            if part.hasPrefix("-") || part.hasSuffix("-") {
+                return nil
+            }
+            if !part.allSatisfy({ $0.isLetter || $0.isNumber || $0 == "-" }) {
+                return nil
+            }
+        }
+
+        return components.url?.absoluteString ?? urlString
+    }
+
     func openWebsite(rawInput: String, viewport: WebBarViewportMode = .iphoneSE, forTabID: UUID? = nil) {
-        let trimmed = rawInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
+        guard let targetURL = Self.validateAndNormalizeURL(rawInput) else { return }
 
         rememberCustomSizeIfNeeded()
-
-        let targetURL: String
-        if trimmed.hasPrefix("http://") || trimmed.hasPrefix("https://") {
-            targetURL = trimmed
-        } else if trimmed.contains(".") && !trimmed.contains(" ") {
-            targetURL = "https://" + trimmed
-        } else {
-            let encoded = trimmed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? trimmed
-            targetURL = "https://www.google.com/search?q=" + encoded
-        }
 
         // 1. If explicit forTabID is provided and is blank:
         if let targetID = forTabID,
@@ -299,6 +368,7 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
                 document.tabs[idx].urlString = ""
                 document.tabs[idx].title = "New Tab"
                 urlInputText = ""
+                positionPanelUnderStatusBar(for: id, animated: true)
             }
             flushSave()
             capsuleView?.updateCapsuleLayout()
@@ -362,6 +432,7 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
         let newZoom = min(document.tabs[idx].zoomLevel + 0.1, 2.5)
         document.tabs[idx].zoomLevel = newZoom
         webViews[activeID]?.pageZoom = CGFloat(newZoom)
+        showZoomHUD(for: newZoom)
         flushSave()
     }
 
@@ -371,6 +442,7 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
         let newZoom = max(document.tabs[idx].zoomLevel - 0.1, 0.5)
         document.tabs[idx].zoomLevel = newZoom
         webViews[activeID]?.pageZoom = CGFloat(newZoom)
+        showZoomHUD(for: newZoom)
         flushSave()
     }
 
@@ -379,7 +451,19 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
               let idx = document.tabs.firstIndex(where: { $0.id == activeID }) else { return }
         document.tabs[idx].zoomLevel = 1.0
         webViews[activeID]?.pageZoom = 1.0
+        showZoomHUD(for: 1.0)
         flushSave()
+    }
+
+    private func showZoomHUD(for zoom: Double) {
+        pendingZoomHUDDismissal?.cancel()
+        zoomHUDPercentage = Int((zoom * 100).rounded())
+
+        let dismissal = DispatchWorkItem { [weak self] in
+            self?.zoomHUDPercentage = nil
+        }
+        pendingZoomHUDDismissal = dismissal
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.1, execute: dismissal)
     }
 
     func togglePin() {
@@ -472,6 +556,8 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
 
     // MARK: - Panel & Window Management
 
+    static let compactLinkInputSize = CGSize(width: 375, height: 165)
+
     private final class KeyableWebBarPanel: NSPanel {
         override var canBecomeKey: Bool { true }
         override var canBecomeMain: Bool { true }
@@ -480,10 +566,15 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
     private func ensurePanel() -> NSPanel {
         if let panel { return panel }
         let targetTab = document.tabs.first(where: { $0.id == document.selectedTabID }) ?? activeTab
-        let viewport = targetTab?.viewport ?? .iphoneSE
-        let startSize = viewport == .custom
-            ? CGSize(width: document.customWidth, height: document.customHeight)
-            : viewport.size
+        let startSize: CGSize
+        if targetTab?.urlString.isEmpty == true {
+            startSize = Self.compactLinkInputSize
+        } else {
+            let viewport = targetTab?.viewport ?? .iphoneSE
+            startSize = viewport == .custom
+                ? CGSize(width: document.customWidth, height: document.customHeight)
+                : viewport.size
+        }
 
         let panel = KeyableWebBarPanel(contentRect: NSRect(origin: .zero, size: startSize),
                                        styleMask: [.borderless, .nonactivatingPanel, .resizable],
@@ -498,7 +589,7 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
         panel.isOpaque = false
         panel.hasShadow = true
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .ignoresCycle]
-        panel.contentMinSize = NSSize(width: 320, height: 400)
+        panel.contentMinSize = NSSize(width: 320, height: 140)
 
         let host = NSHostingController(rootView: WebBarView())
         host.sizingOptions = []
@@ -539,10 +630,15 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
         guard let panel = panel else { return }
 
         let targetTab = document.tabs.first(where: { $0.id == (tabId ?? document.selectedTabID) }) ?? activeTab
-        let viewport = targetTab?.viewport ?? .iphoneSE
-        let panelSize = viewport == .custom
-            ? CGSize(width: document.customWidth, height: document.customHeight)
-            : viewport.size
+        let panelSize: CGSize
+        if targetTab?.urlString.isEmpty == true {
+            panelSize = Self.compactLinkInputSize
+        } else {
+            let viewport = targetTab?.viewport ?? .iphoneSE
+            panelSize = viewport == .custom
+                ? CGSize(width: document.customWidth, height: document.customHeight)
+                : viewport.size
+        }
 
         guard let item = capsuleStatusItem,
               let button = item.button,
@@ -583,8 +679,8 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
 
         if animated && panel.isVisible {
             NSAnimationContext.runAnimationGroup { context in
-                context.duration = 0.26
-                context.timingFunction = CAMediaTimingFunction(controlPoints: 0.16, 1.0, 0.3, 1.0)
+                context.duration = 0.38
+                context.timingFunction = CAMediaTimingFunction(controlPoints: 0.22, 1.0, 0.36, 1.0)
                 panel.animator().setFrame(targetFrame, display: true)
             }
         } else {

@@ -13,10 +13,30 @@ struct WebBarView: View {
     private var strings: WebBarFeatureStrings { FeatureStrings.webBar(l10n.language) }
 
     var body: some View {
-        VStack(spacing: 0) {
-            topControlBar
-            contentArea
+        ZStack {
+            VStack(spacing: 0) {
+                topControlBar
+                contentArea
+            }
+
+            if let percentage = service.zoomHUDPercentage {
+                Text("\(percentage)%")
+                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.primary)
+                    .padding(.horizontal, 14)
+                    .frame(height: 34)
+                    .background(.ultraThinMaterial, in: Capsule())
+                    .overlay {
+                        Capsule()
+                            .strokeBorder(Color.white.opacity(0.16), lineWidth: 1)
+                    }
+                    .shadow(color: .black.opacity(0.22), radius: 8, y: 3)
+                    .transition(.scale(scale: 0.9).combined(with: .opacity))
+                    .allowsHitTesting(false)
+                    .zIndex(10)
+            }
         }
+        .animation(.easeOut(duration: 0.16), value: service.zoomHUDPercentage)
         .background {
             ZStack {
                 HUDBackdrop(cornerRadius: 14)
@@ -46,33 +66,7 @@ struct WebBarView: View {
 
             Spacer()
 
-            // 1. Add New Tab / Link
-            Button {
-                service.addNewTab()
-            } label: {
-                Image(systemName: "plus")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.secondary)
-                    .frame(width: 22, height: 22)
-                    .background(PanelSurface.controlFill(for: colorScheme))
-                    .clipShape(Circle())
-            }
-            .buttonStyle(.plain)
-            .help(strings.newTab)
-
-            // 2. Quick Apps Toggle
-            Button {
-                service.addNewTab()
-            } label: {
-                Image(systemName: "square.grid.2x2")
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(.secondary)
-                    .frame(width: 24, height: 22)
-            }
-            .buttonStyle(.plain)
-            .help(strings.quickAppsTitle)
-
-            // 3. Viewport Mode Switcher
+            // 1. Viewport Mode Switcher
             Menu {
                 ForEach(WebBarViewportMode.allCases) { mode in
                     Button {
@@ -98,7 +92,7 @@ struct WebBarView: View {
             .frame(width: 24)
             .help(strings.viewportLabel)
 
-            // 4. Pin on Top
+            // 2. Pin on Top
             Button {
                 service.togglePin()
             } label: {
@@ -110,7 +104,7 @@ struct WebBarView: View {
             .buttonStyle(.plain)
             .help(service.document.isPinned ? strings.unpinLabel : strings.pinLabel)
 
-            // 5. Close Panel
+            // 3. Close Panel
             Button {
                 service.hide()
             } label: {
@@ -138,20 +132,34 @@ struct WebBarView: View {
                 ZStack {
                     if tab.urlString.isEmpty {
                         WebBarAddLinkAndAppsView(tab: tab)
+                            .transition(.opacity.combined(with: .scale(scale: 0.98)))
                     } else {
                         WebBarWKWebViewContainer(tab: tab)
                             .id(tab.id)
+                            .transition(.opacity)
                     }
                 }
                 .opacity(isSelected ? 1.0 : 0.0)
+                .scaleEffect(isSelected ? 1.0 : 0.98)
                 .allowsHitTesting(isSelected)
+                .animation(.easeInOut(duration: 0.32), value: isSelected)
+                .animation(.easeInOut(duration: 0.35), value: tab.urlString.isEmpty)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .animation(.easeInOut(duration: 0.32), value: service.document.selectedTabID)
     }
 }
 
 // MARK: - Add Website & Quick Apps View (Matching Image 2)
+
+// MARK: - Add Website View (Single Link Input Mode)
+
+enum WebBarURLValidationState: Equatable {
+    case idle
+    case valid
+    case invalid(String)
+}
 
 struct WebBarAddLinkAndAppsView: View {
     let tab: WebBarTab
@@ -161,32 +169,83 @@ struct WebBarAddLinkAndAppsView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var searchInput: String = ""
     @FocusState private var isFieldFocused: Bool
+    @State private var validationState: WebBarURLValidationState = .idle
+    @State private var isOpening: Bool = false
+    @State private var pendingErrorDismissal: DispatchWorkItem?
 
     private var strings: WebBarFeatureStrings { FeatureStrings.webBar(l10n.language) }
+
+    private var invalidURLErrorText: String {
+        switch l10n.language {
+        case .vi:
+            return "Liên kết không hợp lệ"
+        case .ja:
+            return "無効なURLです"
+        case .zhHans, .zhTW, .zhHK:
+            return "网址无效"
+        default:
+            return "Invalid URL"
+        }
+    }
+
+    private var emptyURLErrorText: String {
+        switch l10n.language {
+        case .vi:
+            return "Vui lòng nhập liên kết"
+        default:
+            return "URL required"
+        }
+    }
+
+    private var emptyClipboardErrorText: String {
+        switch l10n.language {
+        case .vi:
+            return "Bộ nhớ tạm trống"
+        default:
+            return "Clipboard is empty"
+        }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
             headerSection
                 .padding(.horizontal, 16)
-                .padding(.top, 10)
-                .padding(.bottom, 12)
+                .padding(.top, 6)
+                .padding(.bottom, 8)
 
-            inputSection
-                .padding(.horizontal, 16)
-                .padding(.bottom, 12)
+            VStack(spacing: 0) {
+                inputSection
 
-            quickAppsGrid
-                .padding(.horizontal, 16)
+                if case .invalid(let message) = validationState {
+                    HStack(spacing: 6) {
+                        Image(systemName: "exclamationmark.circle.fill")
+                            .font(.system(size: 11.5))
+                        Text(message)
+                            .font(.system(size: 11.5, weight: .medium))
+                            .lineLimit(2)
+                        Spacer()
+                    }
+                    .foregroundStyle(Color.red)
+                    .padding(.horizontal, 4)
+                    .padding(.top, 6)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+                }
+            }
+            .padding(.horizontal, 16)
 
             Spacer(minLength: 4)
 
             footerSection
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .animation(.easeInOut(duration: 0.2), value: validationState)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 isFieldFocused = true
             }
+        }
+        .onDisappear {
+            pendingErrorDismissal?.cancel()
         }
     }
 
@@ -222,12 +281,36 @@ struct WebBarAddLinkAndAppsView: View {
         }
     }
 
-    // MARK: - Input Box Section (Matching Image 2)
+    // MARK: - Input Box Section
+    private var borderColor: Color {
+        switch validationState {
+        case .valid:
+            return Color.green
+        case .invalid:
+            return Color.red
+        case .idle:
+            return isFieldFocused ? Color.accentColor : Color.white.opacity(0.12)
+        }
+    }
+
+    private var iconColor: Color {
+        switch validationState {
+        case .valid:
+            return Color.green
+        case .invalid:
+            return Color.red
+        case .idle:
+            return isFieldFocused ? Color.accentColor : .secondary
+        }
+    }
+
     private var inputSection: some View {
         HStack(spacing: 10) {
-            Image(systemName: "globe")
+            Image(systemName: validationState == .valid ? "checkmark.circle.fill" : "globe")
                 .font(.system(size: 15, weight: .medium))
-                .foregroundStyle(isFieldFocused ? Color.accentColor : .secondary)
+                .foregroundStyle(iconColor)
+                .scaleEffect(validationState == .valid ? 1.15 : 1.0)
+                .animation(.spring(response: 0.32, dampingFraction: 0.65), value: validationState)
 
             TextField(strings.searchPlaceholder, text: $searchInput)
                 .textFieldStyle(.plain)
@@ -236,17 +319,33 @@ struct WebBarAddLinkAndAppsView: View {
                 .onSubmit {
                     submitInput()
                 }
+                .onChange(of: searchInput) { _, _ in
+                    if case .invalid = validationState {
+                        pendingErrorDismissal?.cancel()
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            validationState = .idle
+                        }
+                    }
+                }
 
             trailingButton
         }
         .padding(.horizontal, 12)
         .frame(height: 44)
-        .background(PanelSurface.controlFill(for: colorScheme))
+        .background(
+            ZStack {
+                PanelSurface.controlFill(for: colorScheme)
+                if validationState == .valid {
+                    Color.green.opacity(0.08)
+                }
+            }
+        )
         .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 11, style: .continuous)
-                .stroke(isFieldFocused ? Color.accentColor : Color.white.opacity(0.12), lineWidth: isFieldFocused ? 1.5 : 1)
+                .stroke(borderColor, lineWidth: (isFieldFocused || validationState != .idle) ? 1.5 : 1)
         )
+        .animation(.easeInOut(duration: 0.25), value: validationState)
     }
 
     @ViewBuilder
@@ -256,18 +355,26 @@ struct WebBarAddLinkAndAppsView: View {
                 submitInput()
             } label: {
                 HStack(spacing: 4) {
-                    Text(strings.openButton)
-                        .font(.system(size: 12, weight: .bold))
-                    Image(systemName: "arrow.right")
-                        .font(.system(size: 10, weight: .bold))
+                    if isOpening {
+                        ProgressView()
+                            .scaleEffect(0.6)
+                            .frame(width: 14, height: 14)
+                    } else {
+                        Text(strings.openButton)
+                            .font(.system(size: 12, weight: .bold))
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 10, weight: .bold))
+                    }
                 }
                 .foregroundStyle(.white)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
-                .background(Color.accentColor)
+                .background(validationState == .valid ? Color.green : Color.accentColor)
                 .clipShape(Capsule())
             }
             .buttonStyle(.plain)
+            .disabled(isOpening)
+            .animation(.easeInOut(duration: 0.2), value: validationState)
         } else {
             Button {
                 pasteAndSubmit()
@@ -285,76 +392,63 @@ struct WebBarAddLinkAndAppsView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
             }
             .buttonStyle(.plain)
+            .disabled(isOpening)
         }
     }
 
+    private func showError(_ message: String) {
+        pendingErrorDismissal?.cancel()
+        withAnimation(.easeInOut(duration: 0.2)) {
+            validationState = .invalid(message)
+        }
+        let work = DispatchWorkItem {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                if case .invalid = validationState {
+                    validationState = .idle
+                }
+            }
+        }
+        pendingErrorDismissal = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: work)
+    }
+
     private func pasteAndSubmit() {
+        guard !isOpening else { return }
         if let clip = NSPasteboard.general.string(forType: .string)?.trimmingCharacters(in: .whitespacesAndNewlines),
            !clip.isEmpty {
             searchInput = clip
             submitInput()
+        } else {
+            showError(emptyClipboardErrorText)
         }
     }
 
     private func submitInput() {
+        guard !isOpening else { return }
         let text = searchInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !text.isEmpty else { return }
-        service.openWebsite(rawInput: text, forTabID: tab.id)
-        searchInput = ""
-    }
-
-    // MARK: - Quick Apps Grid Section
-    private var quickAppsGrid: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 14) {
-                appCategorySection(
-                    title: strings.quickAppsCategoryAI,
-                    apps: WebBarQuickAppPresets.catalog.filter { $0.category == .ai }
-                )
-                appCategorySection(
-                    title: strings.quickAppsCategoryTools,
-                    apps: WebBarQuickAppPresets.catalog.filter { $0.category == .tools }
-                )
-                appCategorySection(
-                    title: strings.quickAppsCategorySocial,
-                    apps: WebBarQuickAppPresets.catalog.filter { $0.category == .social }
-                )
-            }
-            .padding(.vertical, 4)
+        guard !text.isEmpty else {
+            showError(emptyURLErrorText)
+            return
         }
-    }
 
-    private func appCategorySection(title: String, apps: [WebBarQuickApp]) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title)
-                .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(.secondary)
-
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80, maximum: 110), spacing: 8)], spacing: 8) {
-                ForEach(apps) { app in
-                    Button {
-                        service.openWebsite(rawInput: app.urlString, viewport: app.defaultViewport, forTabID: tab.id)
-                    } label: {
-                        VStack(spacing: 5) {
-                            Image(systemName: app.iconSymbol)
-                                .font(.system(size: 18))
-                                .foregroundStyle(Color(hex: app.colorHex))
-                                .frame(width: 34, height: 34)
-                                .background(Color(hex: app.colorHex).opacity(0.12))
-                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-
-                            Text(app.name)
-                                .font(.system(size: 10, weight: .medium))
-                                .lineLimit(1)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 7)
-                        .background(PanelSurface.cardFill(for: colorScheme))
-                        .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
-                    }
-                    .buttonStyle(.plain)
+        if let validURL = WebBarService.validateAndNormalizeURL(text) {
+            pendingErrorDismissal?.cancel()
+            withAnimation(.spring(response: 0.32, dampingFraction: 0.7)) {
+                validationState = .valid
+            }
+            isOpening = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                withAnimation(.easeInOut(duration: 0.32)) {
+                    service.openWebsite(rawInput: validURL, forTabID: tab.id)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    searchInput = ""
+                    validationState = .idle
+                    isOpening = false
                 }
             }
+        } else {
+            showError(invalidURLErrorText)
         }
     }
 
