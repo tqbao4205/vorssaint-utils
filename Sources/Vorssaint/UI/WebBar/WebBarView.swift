@@ -122,28 +122,20 @@ struct WebBarView: View {
         .padding(.bottom, 6)
     }
 
-    // MARK: - Content Area (Isolated Multi-Tab ZStack)
+    // MARK: - Content Area
 
     @ViewBuilder
     private var contentArea: some View {
-        ZStack {
-            ForEach(service.document.tabs) { tab in
-                let isSelected = (tab.id == service.document.selectedTabID)
-                ZStack {
-                    if tab.urlString.isEmpty {
-                        WebBarAddLinkAndAppsView(tab: tab)
-                            .transition(.opacity.combined(with: .scale(scale: 0.98)))
-                    } else {
-                        WebBarWKWebViewContainer(tab: tab)
-                            .id(tab.id)
-                            .transition(.opacity)
-                    }
+        Group {
+            if let tab = service.activeTab {
+                if tab.urlString.isEmpty {
+                    WebBarAddLinkAndAppsView(tab: tab)
+                        .transition(.opacity.combined(with: .scale(scale: 0.98)))
+                } else {
+                    WebBarWKWebViewContainer(tab: tab)
+                        .id(tab.id)
+                        .transition(.opacity)
                 }
-                .opacity(isSelected ? 1.0 : 0.0)
-                .scaleEffect(isSelected ? 1.0 : 0.98)
-                .allowsHitTesting(isSelected)
-                .animation(.easeInOut(duration: 0.32), value: isSelected)
-                .animation(.easeInOut(duration: 0.35), value: tab.urlString.isEmpty)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

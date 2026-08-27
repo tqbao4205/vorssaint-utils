@@ -360,8 +360,7 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
     func closeTab(id: UUID) {
         rememberCustomSizeIfNeeded()
 
-        webViews[id]?.stopLoading()
-        webViews.removeValue(forKey: id)
+        disposeWebView(for: id)
 
         guard document.tabs.count > 1 else {
             if let idx = document.tabs.firstIndex(where: { $0.id == id }) {
@@ -488,6 +487,17 @@ final class WebBarService: NSObject, ObservableObject, NSWindowDelegate {
 
     func getWebView(for tabID: UUID) -> WKWebView? {
         webViews[tabID]
+    }
+
+    private func disposeWebView(for tabID: UUID) {
+        guard let webView = webViews.removeValue(forKey: tabID) else { return }
+
+        webView.stopLoading()
+        webView.configuration.userContentController.removeScriptMessageHandler(forName: "notificationHandler")
+        webView.configuration.userContentController.removeScriptMessageHandler(forName: "badgeHandler")
+        webView.navigationDelegate = nil
+        webView.uiDelegate = nil
+        webView.removeFromSuperview()
     }
 
     func setUnreadCount(for tabID: UUID, count: Int) {
